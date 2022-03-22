@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">PlantToSeer</string>
+    <string name="login_topic">Sign In</string>
+    <string name="login_email_hint">Email Adress</string>
+    <string name="login_pass_hint">Password</string>
+    <string name="login_signin_btn">Proceed</string>
+    <string name="login_signup_btn">Sign Up!</string>
+    <string name="login_forgot_btn">Forgot Password</string>
+    <string name="create_account">Create an account</string>
+
+    <string name="signup_topic">Sign Up</string>
+    <string name="signup_name">Name</string>
+    <string name="signup_last_name">Last name</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_re_enter_password">Re-enter Password</string>
+    <string name="signup_create">Create an Account</string>
+    <string name="signup_question">Already have an account?</string>
+
+    <string name="get_started">Get Started</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment_home">Hello home</string>
+    <string name="fragment_insert">Hello insert</string>
+    <string name="fragment_search">Hello search</string>
+    <string name="fragment_profile">Hello profile</string>
+</resources>

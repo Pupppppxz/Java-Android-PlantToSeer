@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/mainbg"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:text="@string/app_name"
+        android:fontFamily="@font/font_family"
+        android:textSize="43dp"
+        android:textColor="@color/white"
+        android:gravity="bottom"
+        android:paddingLeft="28dp"
+        android:letterSpacing="0.01"
+        android:paddingBottom="14dp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/rounded_linearlayout"
+        android:gravity="left"
+        android:padding="31dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family"
+            android:textColor="@color/black"
+            android:text="@string/login_topic"
+            android:layout_marginTop="10dp"
+            android:textSize="40dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family"
+            android:textColor="@color/fontColor_dark"
+            android:text="@string/login_email_hint"
+            android:layout_marginTop="65dp"
+            android:textSize="22dp" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:textSize="22dp"
+            android:fontFamily="@font/font_family"
+            android:autofillHints="emailAddress"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/dark_gray"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family"
+            android:textColor="@color/fontColor_dark"
+            android:text="@string/login_pass_hint"
+            android:layout_marginTop="20dp"
+            android:textSize="22dp" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:backgroundTint="@color/gray"
+            android:fontFamily="@font/font_family"
+            android:autofillHints="password"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
+            android:textColor="@color/dark_gray"
+            android:textSize="22dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/etLogin"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:letterSpacing="0.1"
+            android:padding="10dp"
+            android:textSize="30dp"
+            android:text="@string/login_signin_btn" />
+
+        <Button
+            android:id="@+id/etSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_family"
+            android:background="@null"
+            android:textAllCaps="false"
+            android:layout_marginTop="5dp"
+            android:textSize="26dp"
+            android:text="@string/create_account"
+            android:textColor="@color/fontColor_dark"/>
+    </LinearLayout>
+
+</LinearLayout>
