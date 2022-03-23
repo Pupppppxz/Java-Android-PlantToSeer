@@ -19,8 +19,15 @@
     <string name="get_started">Get Started</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="fragment_home">Hello home</string>
+    <string name="fragment_home">Hello, \nTaylor Kalah</string>
     <string name="fragment_insert">Hello insert</string>
     <string name="fragment_search">Hello search</string>
     <string name="fragment_profile">Hello profile</string>
+
+    <string name="home_fragment_topic">Plant Recommendations</string>
+    <string name="home_fragment_vegetable">Vegetable</string>
+    <string name="home_fragment_fruit">Fruit</string>
+    <string name="home_fragment_herb">Herb</string>
+
+    <string name="profile_fragment_topic">My Plant Registration</string>
 </resources>

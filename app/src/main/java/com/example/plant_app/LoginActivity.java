@@ -26,10 +26,21 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton = findViewById(R.id.etLogin);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToHome();
+            }
+        });
     }
 
     public void navigateToSignUp() {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void navigateToHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }
