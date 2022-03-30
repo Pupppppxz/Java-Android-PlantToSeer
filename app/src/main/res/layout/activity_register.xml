@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/reLogin"
+                android:id="@+id/reSignUp"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

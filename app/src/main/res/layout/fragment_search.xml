@@ -3,20 +3,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/mainbg"
+    android:padding="20dp"
     tools:context=".SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        app:cardCornerRadius="150dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp">
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/fragment_search"
-            android:textSize="30dp"
-            android:gravity="center"/>
+            android:id="@+id/mainLogo"
+            android:src="@drawable/logo"
+            android:scaleType="centerCrop"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="240dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:layout_width="240dp"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/rounded_all_border_linearlayout"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/search_icon"
+                android:src="@drawable/ic_round_search_black_24"
+                android:scaleType="centerCrop"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp"
+                android:hint="Search"
+                android:textColor="@color/black"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_all_border_linearlayout"
+            android:layout_height="match_parent">
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_search_page"/>
+        </LinearLayout>
+
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:layout_centerVertical="true"
+        android:fillViewport="true">
+<!--    1    -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:alpha="0.9"
+            android:background="@drawable/rounded_all_border_linearlayout"
+            android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginRight="20dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/brocoli"
+                            android:scaleType="centerCrop"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/black"
+                            android:text="Plant Name"
+                            android:textSize="18dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/dark_gray"
+                            android:text="Plant Scientific Name"
+                            android:textSize="16dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginRight="20dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/brocoli"
+                            android:scaleType="centerCrop"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/black"
+                            android:text="Plant Name"
+                            android:textSize="18dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/dark_gray"
+                            android:text="Plant Scientific Name"
+                            android:textSize="16dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

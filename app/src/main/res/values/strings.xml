@@ -30,4 +30,22 @@
     <string name="home_fragment_herb">Herb</string>
 
     <string name="profile_fragment_topic">My Plant Registration</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--  insert vegetable  -->
+    <string-array name="veges_array">
+        <item>Herbaceous</item>
+        <item>Perennial plant</item>
+        <item>Shrub</item>
+        <item>Climber</item>
+        <item>Scandent</item>
+    </string-array>
+
+    <string-array name="veges_class_array">
+        <item>Bulb</item>
+        <item>Leaf</item>
+        <item>Pod</item>
+        <item>flower</item>
+    </string-array>
 </resources>

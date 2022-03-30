@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85342855848",
+    "project_id": "plant-to-seer",
+    "storage_bucket": "plant-to-seer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85342855848:android:bc2d8187fee4c7f50c189d",
+        "android_client_info": {
+          "package_name": "com.example.plant_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85342855848-e81shnpng5p03g14ts63v2orc2vt9r7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt2TVTzmQldp2CSEfKKs9Nu5YOveq8XGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85342855848-e81shnpng5p03g14ts63v2orc2vt9r7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
