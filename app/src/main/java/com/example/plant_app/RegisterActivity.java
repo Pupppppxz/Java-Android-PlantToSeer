@@ -6,20 +6,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_FIRSTNAME = "firstname";
+    private static final String KEY_LASTNAME = "lastname";
 
     private Button loginButton, registerButton;
     private EditText inputEmail, inputPassword, inputPasswordRecheck, inputFirstName, inputLastName;
@@ -28,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +72,29 @@ public class RegisterActivity extends AppCompatActivity {
                 navigateToSignIn();
             }
         });
+    }
+
+    public void saveNewUser(String email, String password, String firstName, String lastName) {
+        Map<String, Object> user = new HashMap<>();
+        user.put(KEY_FIRSTNAME, firstName);
+        user.put(KEY_LASTNAME, lastName);
+        user.put(KEY_EMAIL, email);
+        user.put(KEY_PASSWORD, password);
+
+        db.collection("User").document("Insert New User").set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(RegisterActivity.this, "Created user successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
     }
 
     private void PerforAuth() {
@@ -88,6 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         progressDialog.dismiss();
+                        saveNewUser(email, password, firstName, lastName);
                         sendUserToActivity();
                         Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
                     } else {
