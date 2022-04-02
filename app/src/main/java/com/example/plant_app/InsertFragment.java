@@ -1,5 +1,6 @@
 package com.example.plant_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.plant_app.insert.InsertFruitFragment;
+import com.example.plant_app.insert.InsertHerbFragment;
 import com.example.plant_app.insert.InsertVegetableFragment;
 
 public class InsertFragment extends Fragment {
@@ -50,6 +52,13 @@ public class InsertFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 replaceFragment(new InsertFruitFragment());
+            }
+        });
+
+        buttonInsertHerb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new InsertHerbFragment());
             }
         });
 

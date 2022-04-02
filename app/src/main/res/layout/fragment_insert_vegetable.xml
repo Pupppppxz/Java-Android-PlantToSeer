@@ -418,6 +418,7 @@
                 android:layout_marginTop="20dp">
 
                 <Button
+                    android:id="@+id/in_btn_reset"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_family"
@@ -434,6 +435,7 @@
                     />
 
                 <Button
+                    android:id="@+id/in_btn_submit"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_family"

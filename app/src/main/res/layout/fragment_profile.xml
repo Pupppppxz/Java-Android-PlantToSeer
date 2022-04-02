@@ -31,10 +31,10 @@
                     android:src="@drawable/icon_list"/>
 
                 <TextView
+                    android:id="@+id/profile_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
-                    android:text="@string/fragment_home"
                     android:textColor="@color/white"
                     android:fontFamily="@font/font_family"
                     android:gravity="center_vertical"

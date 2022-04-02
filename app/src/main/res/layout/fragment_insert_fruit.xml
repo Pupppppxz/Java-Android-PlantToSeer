@@ -418,7 +418,7 @@
                 android:layout_marginTop="20dp">
 
                 <Button
-                    android:id="@+id/insertFruitBtnSubmit"
+                    android:id="@+id/insertFruitBtnReset"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_family"
@@ -435,7 +435,7 @@
                     />
 
                 <Button
-                    android:id="@+id/insertFruitBtnReset"
+                    android:id="@+id/insertFruitBtnSubmit"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_family"

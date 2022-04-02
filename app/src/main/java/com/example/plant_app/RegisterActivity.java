@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_FIRSTNAME = "firstname";
     private static final String KEY_LASTNAME = "lastname";
+    private static final String KEY_USER_ID = "userId";
 
     private Button loginButton, registerButton;
     private EditText inputEmail, inputPassword, inputPasswordRecheck, inputFirstName, inputLastName;
@@ -56,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.reSignUp);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -74,14 +74,15 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void saveNewUser(String email, String password, String firstName, String lastName) {
+    public void saveNewUser(String userId, String email, String password, String firstName, String lastName) {
         Map<String, Object> user = new HashMap<>();
         user.put(KEY_FIRSTNAME, firstName);
         user.put(KEY_LASTNAME, lastName);
         user.put(KEY_EMAIL, email);
         user.put(KEY_PASSWORD, password);
+        user.put(KEY_USER_ID, userId);
 
-        db.collection("User").document("Insert New User").set(user)
+        db.collection("User").document(userId).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -124,8 +125,10 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        String userId = firebaseUser.getUid();
                         progressDialog.dismiss();
-                        saveNewUser(email, password, firstName, lastName);
+                        saveNewUser(userId, email, password, firstName, lastName);
                         sendUserToActivity();
                         Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
                     } else {
