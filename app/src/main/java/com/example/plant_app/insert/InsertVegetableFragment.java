@@ -264,7 +264,7 @@ public class InsertVegetableFragment extends Fragment {
         vegetable.put(KeyInsert.KEY_MINERAL, smineral);
         vegetable.put(KeyInsert.KEY_HARVEST_TIME, sharvest_time);
         vegetable.put(KeyInsert.KEY_TREATMENTS, streatments);
-        vegetable.put(KeyInsert.KEY_VEGETABLE_TYPE, svegetable_type);
+        vegetable.put(KeyInsert.KEY_TYPE, svegetable_type);
         vegetable.put(KeyInsert.KEY_PLANTING, splanting);
         vegetable.put(KeyInsert.KEY_SOIL, ssoil);
         vegetable.put(KeyInsert.KEY_SOIL_PH, ssoilPH);
@@ -273,6 +273,7 @@ public class InsertVegetableFragment extends Fragment {
         vegetable.put(KeyInsert.KEY_TEMPERATURE, stemp);
         vegetable.put(KeyInsert.KEY_HUMIDITY, shumidity);
         vegetable.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
+        vegetable.put(KeyInsert.TYPE, "VEGETABLE");
 
         db.collection(userId).document(sname).set(vegetable)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

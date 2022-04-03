@@ -1,4 +1,4 @@
-package com.example.plant_app;
+package com.example.plant_app.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.example.plant_app.MainActivity;
+import com.example.plant_app.ProfileFragment;
+import com.example.plant_app.R;
 import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.profile.EditProfileFragment;
-import com.example.plant_app.profile.FavouritePageFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,16 +30,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ProfileFragment extends Fragment {
+public class FavouritePageFragment extends Fragment {
 
-    private static final String TAG = "ProfileFragment";
+    private static final String TAG = "FavouritePageFragment";
     private ImageView iconList;
     private String userId;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
     private TextView helloUser;
 
-    public ProfileFragment() {
+    public FavouritePageFragment() {
         // Required empty public constructor
     }
 
@@ -48,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_favourite_page, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -70,9 +72,9 @@ public class ProfileFragment extends Fragment {
                                 replaceFragment(new EditProfileFragment());
                                 return true;
                             case R.id.profile_popup_fav:
-                                replaceFragment(new FavouritePageFragment());
                                 return true;
                             case R.id.profile_popup_regis:
+                                replaceFragment(new ProfileFragment());
                                 return true;
                             case R.id.profile_popup_logout:
                                 FirebaseLocal.logout();

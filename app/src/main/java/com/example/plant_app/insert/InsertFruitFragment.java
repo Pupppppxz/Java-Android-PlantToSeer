@@ -8,8 +8,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.text.Html;
@@ -24,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.plant_app.HomeActivity;
-import com.example.plant_app.InsertFragment;
 import com.example.plant_app.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -157,29 +154,6 @@ public class InsertFruitFragment extends Fragment {
         String spinnerBotanical = botanical.getSelectedItem().toString();
         String spinnerFruit = fruit.getSelectedItem().toString();
 
-        System.out.println("filepath = " + filePath);
-
-        System.out.println("name =" + inputName);
-        System.out.println("sc name =" + inputScienceName);
-        System.out.println("f =" + inputFamilies);
-        System.out.println("fd =" + inputFamilyDescription);
-        System.out.println("d =" + inputDescription);
-        System.out.println("s =" + inputSeason);
-        System.out.println("v =" + inputVitamin);
-        System.out.println("m =" + inputMineral);
-        System.out.println("hvt =" + inputHarvestTime);
-        System.out.println("tr =" + inputTreatments);
-        System.out.println("pl =" + inputPlanting);
-        System.out.println("soil =" + inputSoil);
-        System.out.println("sp =" + inputSoilPH);
-        System.out.println("sun =" + inputSunExposure);
-        System.out.println("w =" + inputWater);
-        System.out.println("temp =" + inputTemperature);
-        System.out.println("humi =" + inputHumidity);
-        System.out.println("fert =" + inputFertilizer);
-        System.out.println("bot =" + spinnerBotanical);
-        System.out.println("fr =" + spinnerFruit);
-
         if (inputName.isEmpty()) {
             name.setError("Enter name field");
         } else if (inputScienceName.isEmpty()) {
@@ -286,7 +260,7 @@ public class InsertFruitFragment extends Fragment {
         fruit.put(KeyInsert.KEY_MINERAL, smineral);
         fruit.put(KeyInsert.KEY_HARVEST_TIME, sharvest_time);
         fruit.put(KeyInsert.KEY_TREATMENTS, streatments);
-        fruit.put(KeyInsert.KEY_FRUIT_TYPE, sfruit_type);
+        fruit.put(KeyInsert.KEY_TYPE, sfruit_type);
         fruit.put(KeyInsert.KEY_PLANTING, splanting);
         fruit.put(KeyInsert.KEY_SOIL, ssoil);
         fruit.put(KeyInsert.KEY_SOIL_PH, ssoilPH);
@@ -295,6 +269,7 @@ public class InsertFruitFragment extends Fragment {
         fruit.put(KeyInsert.KEY_TEMPERATURE, stemp);
         fruit.put(KeyInsert.KEY_HUMIDITY, shumidity);
         fruit.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
+        fruit.put(KeyInsert.TYPE, "FRUIT");
 
         db.collection(userId).document(sname).set(fruit)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

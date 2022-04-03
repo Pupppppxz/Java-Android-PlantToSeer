@@ -236,6 +236,7 @@ public class InsertHerbFragment extends Fragment {
         herb.put(KeyInsert.KEY_TEMPERATURE, stemp);
         herb.put(KeyInsert.KEY_HUMIDITY, shumidity);
         herb.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
+        herb.put(KeyInsert.TYPE, "HERB");
 
         db.collection(userId).document(sname).set(herb)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

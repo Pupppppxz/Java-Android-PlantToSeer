@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cardCornerRadius="10dp">
+
+        <ImageView
+            android:id="@+id/plant_list_view_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/brocoli"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:paddingLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/plant_list_view_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="text View 1"
+            android:fontFamily="@font/font_family"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/plant_list_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="text View 2"
+            android:fontFamily="@font/font_family"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+</LinearLayout>

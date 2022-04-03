@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.profile.EditProfileFragment;
-import com.example.plant_app.profile.FavouriteFragment;
+import com.example.plant_app.profile.FavouritePageFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
                                 replaceFragment(new EditProfileFragment());
                                 return true;
                             case R.id.profile_popup_fav:
-                                replaceFragment(new FavouriteFragment());
+                                replaceFragment(new FavouritePageFragment());
                                 return true;
                             case R.id.profile_popup_regis:
                                 replaceFragment(new ProfileFragment());
