@@ -33,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String KEY_FIRSTNAME = "firstname";
     private static final String KEY_LASTNAME = "lastname";
     private static final String KEY_USER_ID = "userId";
+    private static final String KEY_STATUS = "status";
 
     private Button loginButton, registerButton;
     private EditText inputEmail, inputPassword, inputPasswordRecheck, inputFirstName, inputLastName;
@@ -81,6 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put(KEY_EMAIL, email);
         user.put(KEY_PASSWORD, password);
         user.put(KEY_USER_ID, userId);
+        user.put(KEY_STATUS, "user");
 
         db.collection("User").document(userId).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

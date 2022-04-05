@@ -8,22 +8,27 @@
     android:padding="20dp"
     tools:context=".SearchFragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        app:cardCornerRadius="150dp"
+    <LinearLayout
         android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/mainLogo"
-            android:src="@drawable/logo"
-            android:scaleType="centerCrop"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:padding="10dp"
+            app:cardCornerRadius="150dp">
 
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/mainLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

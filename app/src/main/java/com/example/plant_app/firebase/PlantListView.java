@@ -44,5 +44,11 @@ public class PlantListView {
     public void setImg(int img) {
         this.img = img;
     }
+
+    @Override
+    public String toString() {
+        return "Plant [name=" + name + ", type=" + type + "]";
+    }
+
 }
 

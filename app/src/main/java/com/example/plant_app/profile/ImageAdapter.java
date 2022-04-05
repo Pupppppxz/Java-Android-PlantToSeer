@@ -1,4 +1,51 @@
 package com.example.plant_app.profile;
 
-public class ImageAdapter {
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.plant_app.R;
+import com.example.plant_app.firebase.PlantListView;
+
+import java.util.List;
+
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder> {
+    private List<PlantListView> plantList;
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView img;
+        MyViewHolder(View view) {
+            super(view);
+            img = view.findViewById(R.id.image_image_recycle);
+        }
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.image_item, parent, false);
+        return new MyViewHolder((itemView));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        PlantListView plant = plantList.get(position);
+        holder.img.setImageResource(plant.getImg());
+    }
+
+    @Override
+    public int getItemCount() {
+        return plantList.size();
+    }
+
+    public ImageAdapter(List<PlantListView> plantList) {
+        this.plantList = plantList;
+    }
+
+
 }

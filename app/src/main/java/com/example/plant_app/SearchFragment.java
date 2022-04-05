@@ -60,11 +60,11 @@ public class SearchFragment extends Fragment {
             "All", "Plants", "    Vegetable", "    Fruit", "    Herb", "Symptoms", "Disease"
     };
     String[] plantName = new String[] {
-            "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
+            "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
             ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis"
     };
     int[] plantImg = new int[]{
-        R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
+        R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
             R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
             R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis
     };
@@ -142,7 +142,14 @@ public class SearchFragment extends Fragment {
                             for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                                 Plant plant = plants.toObject(Plant.class);
                                 System.out.println(plant);
-                                PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), R.drawable.brocoli);
+                                int index = 0;
+                                for (int i = 0; i < plantName.length; i++) {
+                                    if (plant.getName().toLowerCase().equals(plantName[i])) {
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                                PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index]);
                                 plantList.add(plantListView);
                             }
                         }
