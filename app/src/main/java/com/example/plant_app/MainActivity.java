@@ -32,12 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mainGetStartedButton = findViewById(R.id.mainGetStarted);
-        mainGetStartedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToLogin();
-            }
-        });
+        mainGetStartedButton.setOnClickListener(view -> navigateToLogin());
     }
 
     public void navigateToLogin() {

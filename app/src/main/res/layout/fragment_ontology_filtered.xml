@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fontColor_light"
+    android:padding="15dp"
+    tools:context=".detail.OntologyFilteredFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/font_family"
+            android:text="Relationship of Andrographis's Node"
+            android:textSize="27dp"
+            />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@drawable/rounded_all_border_linearlayout_border_black">
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_botanical_habit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Botanical Habit : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ontology_filtered_botanical_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Herbaceous Stem"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_family"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Family : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ontology_filtered_family"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acanthaceae"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_plant_type"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ontology_filtered_plant_type_topic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vegetable : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ontology_filtered_plant_type_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leaf"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_season"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Season : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ontology_filtered_season"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="summer"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_nutrient"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nutrient : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vitamin : "
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/font_family" />
+
+                    <TextView
+                        android:id="@+id/ontology_filtered_vitamin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="C, E"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/font_family" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mineral : "
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/font_family" />
+
+                    <TextView
+                        android:id="@+id/ontology_filtered_mineral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="C, E"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/font_family" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_planting"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Planting : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ontology_filtered_planting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leaf"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_plant_care"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Plant Care : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Soil : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_soil"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Soil pH : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_soilPH"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sun Exposure : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_sun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Water : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_water"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Temperature : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Humidity : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_humi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fertilizer : "
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+
+                        <TextView
+                            android:id="@+id/ontology_filtered_fert"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C, E"
+                            android:textSize="15dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/font_family" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ListView
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_all_border_linearlayout"
+                android:id="@+id/ontology_filtered_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -15,12 +15,16 @@ import android.widget.ImageButton;
 import com.example.plant_app.insert.InsertFruitFragment;
 import com.example.plant_app.insert.InsertHerbFragment;
 import com.example.plant_app.insert.InsertVegetableFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class InsertFragment extends Fragment {
 
     private ImageButton buttonInsertVegetable;
     private ImageButton buttonInsertFruit;
     private ImageButton buttonInsertHerb;
+    private FirebaseUser firebaseUser;
+    private FirebaseAuth firebaseAuth;
 
     public InsertFragment() {
         // Required empty public constructor
@@ -41,28 +45,24 @@ public class InsertFragment extends Fragment {
         buttonInsertFruit = v.findViewById(R.id.insertImageFruit);
         buttonInsertHerb = v.findViewById(R.id.insertImageHerb);
 
-        buttonInsertVegetable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new InsertVegetableFragment());
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            navigateToMain();
+        }
 
-        buttonInsertFruit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new InsertFruitFragment());
-            }
-        });
+        buttonInsertVegetable.setOnClickListener(view -> replaceFragment(new InsertVegetableFragment()));
 
-        buttonInsertHerb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new InsertHerbFragment());
-            }
-        });
+        buttonInsertFruit.setOnClickListener(view -> replaceFragment(new InsertFruitFragment()));
+
+        buttonInsertHerb.setOnClickListener(view -> replaceFragment(new InsertHerbFragment()));
 
         return v;
+    }
+
+    private void navigateToMain() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        getActivity().startActivity(intent);
     }
 
     private void replaceFragment(Fragment fragment) {

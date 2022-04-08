@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/fontColor_light"
+    android:padding="15dp"
+    tools:context=".detail.OntologyFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/font_family"
+            android:text="Relationship of Andrographis's Node"
+            android:textSize="27dp"
+            />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/rounded_all_border_linearlayout_border_black">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-- Botanical Habit"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/ontology_herbaceous_stem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Herbaceous Stem"/>
+
+            <CheckBox
+                android:id="@+id/ontology_perennial_plant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Perennial Plant"/>
+
+            <CheckBox
+                android:id="@+id/ontology_shrub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Shrub"/>
+
+            <CheckBox
+                android:id="@+id/ontology_climber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Climber"/>
+
+            <CheckBox
+                android:id="@+id/ontology_scandent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Scandent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-- About"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/ontology_family"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Family"/>
+
+            <CheckBox
+                android:id="@+id/ontology_season"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Season"/>
+
+            <CheckBox
+                android:id="@+id/ontology_nutrient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Nutrient"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="-- Type of Plant"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="     -- Vegetable"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/ontology_bulb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Bulb"/>
+
+            <CheckBox
+                android:id="@+id/ontology_pod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Pod"/>
+
+            <CheckBox
+                android:id="@+id/ontology_leaf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Leaf"/>
+
+            <CheckBox
+                android:id="@+id/ontology_flower"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Flower"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="     -- Fruit"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/ontology_simple_fruit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Simple Fruit"/>
+
+            <CheckBox
+                android:id="@+id/ontology_multiple_fruit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Multiple Fruit"/>
+
+            <CheckBox
+                android:id="@+id/ontology_aggregate_fruit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Aggregate Fruit"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="     -- Herb"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/ontology_treatment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/font_family"
+                android:text="Treatment" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-- Growth"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/font_family"
+                android:textSize="18dp" />
+
+            <CheckBox
+                android:id="@+id/ontology_planting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Planting"/>
+
+            <CheckBox
+                android:id="@+id/ontology_plant_care"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:fontFamily="@font/font_family"
+                android:text="Plant Care"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:gravity="right">
+
+            <Button
+                android:id="@+id/plant_ontology_button"
+                android:layout_width="wrap_content"
+                android:text="Next"
+                android:textColor="@color/white"
+                android:paddingLeft="20dp"
+                android:fontFamily="@font/font_family"
+                android:textSize="17dp"
+                android:textAllCaps="false"
+                android:paddingRight="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_black"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

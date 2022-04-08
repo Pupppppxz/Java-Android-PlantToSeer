@@ -23,6 +23,7 @@ public class KeyInsert {
     public static final String KEY_BOTANICAL_HABIT = "botanicalHabit";
     public static final String KEY_TYPE = "classification";
     public static final String TYPE = "type";
+    public static final String OWNER = "owner";
     KeyInsert() {
 
     }

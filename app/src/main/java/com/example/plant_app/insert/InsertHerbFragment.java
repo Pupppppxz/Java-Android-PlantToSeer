@@ -237,8 +237,24 @@ public class InsertHerbFragment extends Fragment {
         herb.put(KeyInsert.KEY_HUMIDITY, shumidity);
         herb.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
         herb.put(KeyInsert.TYPE, "HERB");
+        herb.put(KeyInsert.OWNER, userId);
 
         db.collection(userId).document(sname).set(herb)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getActivity(), "Insert herb successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
+
+        db.collection("HERB").document(sname).set(herb)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

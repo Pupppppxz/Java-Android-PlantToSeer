@@ -4,13 +4,17 @@ public class PlantListView {
     private String name;
     private String sciName;
     private String type;
-    private int img;
+    private int img, index;
 
-    public PlantListView(String name, String sciName, String type, int img) {
+    public PlantListView() {
+    }
+
+    public PlantListView(String name, String sciName, String type, int img, int index) {
         this.name = name;
         this.sciName = sciName;
         this.type = type;
         this.img = img;
+        this.index = index;
     }
 
     public String getName() {
@@ -43,6 +47,14 @@ public class PlantListView {
 
     public void setImg(int img) {
         this.img = img;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override

@@ -69,26 +69,11 @@ public class EditProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
         initElement(v);
-        inputEditImageProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectImage();
-            }
-        });
+        inputEditImageProfile.setOnClickListener(view -> SelectImage());
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendUserToHome();
-            }
-        });
+        btnReset.setOnClickListener(view -> sendUserToHome());
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PerformUpdate();
-            }
-        });
+        btnSubmit.setOnClickListener(view -> PerformUpdate());
 
         return v;
     }
@@ -109,31 +94,22 @@ public class EditProfileFragment extends Fragment {
                     .child(FirebaseLocal.storagePathForImageUpload + userId + "/profile");
 
             ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast
-                                    .makeText(getActivity(), "Image uploaded", Toast.LENGTH_SHORT)
-                                    .show();
-                            sendUserToHome();
-                        }
+                    .addOnSuccessListener(taskSnapshot -> {
+                        progressDialog.dismiss();
+                        Toast
+                                .makeText(getActivity(), "Image uploaded", Toast.LENGTH_SHORT)
+                                .show();
+                        sendUserToHome();
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast
-                                    .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
-                                    .show();
-                        }
+                    .addOnFailureListener(e -> {
+                        progressDialog.dismiss();
+                        Toast
+                                .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
+                                .show();
                     })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int)progress + "%");
-                        }
+                    .addOnProgressListener(taskSnapshot -> {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int)progress + "%");
                     });
         } else {
             System.out.println("file path = null");

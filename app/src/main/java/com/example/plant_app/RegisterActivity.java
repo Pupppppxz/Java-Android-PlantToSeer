@@ -60,19 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PerforAuth();
-            }
-        });
+        registerButton.setOnClickListener(view -> PerforAuth());
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToSignIn();
-            }
-        });
+        loginButton.setOnClickListener(view -> navigateToSignIn());
     }
 
     public void saveNewUser(String userId, String email, String password, String firstName, String lastName) {
@@ -85,12 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.put(KEY_STATUS, "user");
 
         db.collection("User").document(userId).set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(RegisterActivity.this, "Created user successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
+                .addOnSuccessListener(unused -> Toast.makeText(RegisterActivity.this, "Created user successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -123,20 +108,17 @@ public class RegisterActivity extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        String userId = firebaseUser.getUid();
-                        progressDialog.dismiss();
-                        saveNewUser(userId, email, password, firstName, lastName);
-                        sendUserToActivity();
-                        Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
-                    }
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = firebaseUser.getUid();
+                    progressDialog.dismiss();
+                    saveNewUser(userId, email, password, firstName, lastName);
+                    sendUserToActivity();
+                    Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(RegisterActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

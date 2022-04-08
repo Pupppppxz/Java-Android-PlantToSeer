@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/fontColor_dark"
+    android:padding="10dp"
+    tools:context=".detail.PlantDetailFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardCornerRadius="30dp"
+                android:layout_height="200dp">
+                <ImageView
+                    android:id="@+id/plant_detail_top_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/brocoli"
+                    android:scaleType="centerCrop"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_all_border_linearlayout_light"
+            android:layout_marginTop="-25dp"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="0dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_all_border_linearlayout_border_black">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/plant_detail_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_family"
+                        android:textSize="27dp"
+                        android:textColor="@color/black"
+                        android:text="Andrographis"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:id="@+id/plant_detail_like"
+                        android:src="@drawable/ic_round_favorite_24_red"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                </LinearLayout>
+
+                <!--    sci name    -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Scientific name"
+                    android:fontFamily="@font/font_family"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/plant_detail_sciname"
+                    android:layout_marginLeft="30dp"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/font_family"
+                    android:layout_height="wrap_content"
+                    android:text="Scientific name"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"/>
+
+                <!--    family    -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Family"
+                    android:fontFamily="@font/font_family"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/plant_detail_family"
+                    android:layout_marginLeft="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="family"
+                    android:fontFamily="@font/font_family"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Family Description"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/plant_detail_family_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:text="Botanical Habit"/>
+
+            <TextView
+                android:id="@+id/plant_detail_habit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Scientific name"
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:text="Description"/>
+
+            <TextView
+                android:id="@+id/plant_detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:text="Season"/>
+
+            <TextView
+                android:id="@+id/plant_detail_season"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Scientific name"
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:text="Nutrient"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Vitamin : "
+                    android:textSize="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/plant_detail_vitamin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="C, E, G"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="Mineral : "
+                    android:textSize="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/plant_detail_mineral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:text="C, E, G"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:text="Treatments"/>
+
+            <TextView
+                android:id="@+id/plant_detail_treatments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:text="Scientific name"
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_all_border_linearlayout_border_black"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="27dp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/black"
+                    android:text="Growth"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_all_border_linearlayout_border_black"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/plant_detail_linear_harvest_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17dp"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/black"
+                            android:text="Harvest Time"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/plant_detail_arrow_harvest_time"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_round_keyboard_arrow_down_24" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/plant_detail_harvest_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/font_family"
+                        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_all_border_linearlayout_border_black"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/plant_detail_linear_planting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17dp"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/black"
+                            android:text="Planting"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/plant_detail_arrow_planting"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_round_keyboard_arrow_down_24" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/plant_detail_planting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/font_family"
+                        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_all_border_linearlayout_border_black"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/plant_detail_linear_plant_care"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="17dp"
+                            android:fontFamily="@font/font_family"
+                            android:textColor="@color/black"
+                            android:text="Plant Care"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/plant_detail_arrow_plant_care"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_round_keyboard_arrow_down_24" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/plant_detail_linear_plant_care_all">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Soil : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_soil"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Soil pH : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_soilPH"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Sun Exposure : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_sun_exposure"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Water : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_water"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Temperature : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_temperature"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Humidity : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_humidity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="Fertilizer : "
+                                android:textSize="15dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"/>
+                            <TextView
+                                android:id="@+id/plant_detail_fertilizer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/font_family"
+                                android:text="C, E, G"
+                                android:textSize="15dp"
+                                android:layout_marginTop="10dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/plant_detail_button_ontology"
+                    android:layout_width="wrap_content"
+                    android:text="Ontology Relationship"
+                    android:textColor="@color/white"
+                    android:paddingLeft="20dp"
+                    android:fontFamily="@font/font_family"
+                    android:textSize="17dp"
+                    android:textAllCaps="false"
+                    android:paddingRight="20dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button_black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

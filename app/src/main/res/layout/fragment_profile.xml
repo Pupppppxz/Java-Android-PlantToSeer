@@ -110,7 +110,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profile_vegetable_recycle"
@@ -134,7 +134,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profile_fruit_recycle"
@@ -154,58 +154,15 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp">
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:id="@+id/profile_herb1"
-                        android:src="@drawable/brocoli"
-                        android:scaleType="centerCrop"/>
-                </androidx.cardview.widget.CardView>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp">
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:id="@+id/profile_herb2"
-                        android:src="@drawable/brocoli"
-                        android:scaleType="centerCrop"/>
-                </androidx.cardview.widget.CardView>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp">
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:id="@+id/profile_herb3"
-                        android:src="@drawable/brocoli"
-                        android:scaleType="centerCrop"/>
-                </androidx.cardview.widget.CardView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_herb_recycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </LinearLayout>
 

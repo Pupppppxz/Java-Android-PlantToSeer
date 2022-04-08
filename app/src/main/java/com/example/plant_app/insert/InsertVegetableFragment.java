@@ -274,8 +274,24 @@ public class InsertVegetableFragment extends Fragment {
         vegetable.put(KeyInsert.KEY_HUMIDITY, shumidity);
         vegetable.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
         vegetable.put(KeyInsert.TYPE, "VEGETABLE");
+        vegetable.put(KeyInsert.OWNER, userId);
 
         db.collection(userId).document(sname).set(vegetable)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getActivity(), "Insert vegetable successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
+
+        db.collection("VEGETABLE").document(sname).set(vegetable)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

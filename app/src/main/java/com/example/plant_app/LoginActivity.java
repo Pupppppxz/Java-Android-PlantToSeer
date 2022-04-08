@@ -40,19 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToSignUp();
-            }
-        });
+        signupButton.setOnClickListener(view -> navigateToSignUp());
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performLogin();
-            }
-        });
+        loginButton.setOnClickListener(view -> performLogin());
     }
 
     private void performLogin() {
@@ -69,17 +59,14 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        progressDialog.dismiss();
-                        sendUserToActivity();
-                        Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
-                    }
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    progressDialog.dismiss();
+                    sendUserToActivity();
+                    Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

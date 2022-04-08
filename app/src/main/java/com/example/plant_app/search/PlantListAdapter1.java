@@ -16,13 +16,13 @@ import com.example.plant_app.firebase.PlantListView;
 
 import java.util.ArrayList;
 
-public class PlantListAdapter extends ArrayAdapter<PlantListView> {
-    private static final String TAG = "PlantListAdapter";
+public class PlantListAdapter1 extends ArrayAdapter<PlantListView> {
+    private static final String TAG = "PlantListAdapter1";
 
     private Context mContext;
     int mResource;
 
-    public PlantListAdapter(Context context, int resource, ArrayList<PlantListView> objects) {
+    public PlantListAdapter1(Context context, int resource, ArrayList<PlantListView> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.mResource = resource;
@@ -42,9 +42,9 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        ImageView pImageView = convertView.findViewById(R.id.plant_list_view_image);
-        TextView pNameView = convertView.findViewById(R.id.plant_list_view_1);
-        TextView pSciNameView = convertView.findViewById(R.id.plant_list_view_2);
+        ImageView pImageView = convertView.findViewById(R.id.ontology_filtered_image);
+        TextView pNameView = convertView.findViewById(R.id.ontology_filtered_name);
+        TextView pSciNameView = convertView.findViewById(R.id.ontology_filtered_sci_name);
 
         pNameView.setText(name);
         pSciNameView.setText(sciName);

@@ -270,8 +270,24 @@ public class InsertFruitFragment extends Fragment {
         fruit.put(KeyInsert.KEY_HUMIDITY, shumidity);
         fruit.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
         fruit.put(KeyInsert.TYPE, "FRUIT");
+        fruit.put(KeyInsert.OWNER, userId);
 
         db.collection(userId).document(sname).set(fruit)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getActivity(), "Insert fruit successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
+
+        db.collection("FRUIT").document(sname).set(fruit)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

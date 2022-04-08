@@ -2,12 +2,18 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
     android:layout_height="100dp"
+    android:layout_marginRight="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="20dp">
-    <ImageView
-        android:id="@+id/image_image_recycle"
-        android:src="@drawable/brocoli"
-        android:scaleType="centerCrop"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_image_recycle_item"
+            android:src="@drawable/brocoli"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
