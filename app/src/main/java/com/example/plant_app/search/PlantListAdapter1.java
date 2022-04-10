@@ -34,10 +34,11 @@ public class PlantListAdapter1 extends ArrayAdapter<PlantListView> {
         String name = getItem(position).getName();
         String sciName = getItem(position).getSciName();
         String type = getItem(position).getType();
+        String treatment = getItem(position).getTreatments();
         int img = getItem(position).getImg();
         int index = getItem(position).getIndex();
 
-        PlantListView plantListView = new PlantListView(name, sciName, type, img, index);
+        PlantListView plantListView = new PlantListView(name, sciName, type, img, index, treatment);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

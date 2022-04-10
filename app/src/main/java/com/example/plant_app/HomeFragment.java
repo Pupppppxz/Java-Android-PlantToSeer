@@ -1,6 +1,8 @@
 package com.example.plant_app;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import com.example.plant_app.detail.PlantDetailFragment;
 import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.firebase.Plant;
 import com.example.plant_app.firebase.PlantListView;
+import com.example.plant_app.firebase.User;
 import com.example.plant_app.profile.EditProfileFragment;
 import com.example.plant_app.profile.FavouritePageFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,9 +40,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
@@ -47,7 +52,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private String userId;
     private TextView helloUser;
-    private ImageView iconList, vege1, vege2, vege3, fr1, fr2, fr3, he1, he2, he3;
+    private ImageView iconList, vege1, vege2, vege3, fr1, fr2, fr3, he1, he2, he3, profilePicture;
 
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
@@ -55,14 +60,16 @@ public class HomeFragment extends Fragment {
     private StorageReference storageReference;
     private FirebaseFirestore db;
 
+    private User user;
+
     String[] plantName = new String[] {
             "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis"
+            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
     };
     int[] plantImg = new int[]{
             R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
             R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis
+            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
     };
     private ArrayList<Plant> homeVegetables = new ArrayList<>();
     private ArrayList<Plant> homeFruits = new ArrayList<>();
@@ -101,7 +108,9 @@ public class HomeFragment extends Fragment {
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
                     case R.id.profile_popup_edit:
-                        replaceFragment(new EditProfileFragment());
+                        EditProfileFragment editProfileFragment = new EditProfileFragment();
+                        editProfileFragment.setUser(user);
+                        replaceFragment(editProfileFragment);
                         return true;
                     case R.id.profile_popup_fav:
                         replaceFragment(new FavouritePageFragment());
@@ -126,12 +135,27 @@ public class HomeFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
         userId = firebaseUser.getUid();
         if (firebaseUser == null) {
             navigateToMain();
         }
+
+        storageReference = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + userId + "/profile");
+        try {
+            final File localFile = File.createTempFile("profile", "jpg");
+            storageReference.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        profilePicture = v.findViewById(R.id.home_profile_picture);
+                        profilePicture.setImageBitmap(bitmap);
+                    }).addOnFailureListener(e -> System.out.println(e));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         userId = firebaseUser.getUid();
         helloUser = v.findViewById(R.id.home_popup);
         iconList = v.findViewById(R.id.profile_list_icon);
@@ -347,8 +371,8 @@ public class HomeFragment extends Fragment {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document != null) {
-                            String fullname = "Hello,\n" + document.getString("firstname") + " " + document.getString("lastname");
-                            helloUser.setText(fullname);
+                            user = document.toObject(User.class);
+                            helloUser.setText("Hello,\n" + user.getFirstname() + " " + user.getLastname());
                         } else {
                             Log.d(TAG, "No such document");
                         }

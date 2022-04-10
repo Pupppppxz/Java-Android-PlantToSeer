@@ -18,9 +18,37 @@
             android:layout_margin="10dp"
             android:textColor="@color/black"
             android:fontFamily="@font/font_family"
-            android:text="Relationship of Andrographis's Node"
+            android:text="Relationship of"
             android:textSize="27dp"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ontology_filtered_plant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/font_family"
+                android:text="Plant name"
+                android:textColor="@color/black"
+                android:textSize="27dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/font_family"
+                android:text="'s Node"
+                android:textColor="@color/black"
+                android:textSize="27dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"

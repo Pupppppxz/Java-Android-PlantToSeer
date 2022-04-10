@@ -2,7 +2,7 @@
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="15dp"
+    android:padding="5dp"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -47,6 +47,34 @@
                 android:text="text View 2"
                 android:fontFamily="@font/font_family"
                 android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/search_linear_admin"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/search_btn_admin_edit"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:text="Edit"
+                android:textSize="14dp"
+                android:fontFamily="@font/font_family"
+                android:background="@drawable/rounded_button_edit"/>
+
+            <Button
+                android:id="@+id/search_btn_admin_delete"
+                android:layout_marginLeft="5dp"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:fontFamily="@font/font_family"
+                android:text="Delete"
+                android:background="@drawable/rounded_button_delete"/>
+
         </LinearLayout>
     </LinearLayout>
 

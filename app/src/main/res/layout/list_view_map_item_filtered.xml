@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:padding="15dp"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
             android:layout_width="120dp"
             android:layout_height="80dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             app:cardCornerRadius="10dp">
 
             <ImageView
@@ -27,7 +27,7 @@
         <LinearLayout
             android:paddingLeft="20dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -35,7 +35,7 @@
                 android:id="@+id/ontology_filtered_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:text="text View 1"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/font_family"
@@ -45,7 +45,7 @@
                 android:id="@+id/ontology_filtered_sci_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
+                android:textSize="15dp"
                 android:text="text View 2"
                 android:fontFamily="@font/font_family"
                 android:textColor="@color/black"/>

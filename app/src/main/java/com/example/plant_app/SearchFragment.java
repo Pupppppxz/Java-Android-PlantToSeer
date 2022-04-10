@@ -6,14 +6,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -31,12 +33,15 @@ import com.example.plant_app.detail.PlantDetailFragment;
 import com.example.plant_app.firebase.Plant;
 import com.example.plant_app.firebase.PlantLiked;
 import com.example.plant_app.firebase.PlantListView;
+import com.example.plant_app.firebase.User;
 import com.example.plant_app.insert.InitSpinner;
 import com.example.plant_app.search.PlantListAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -62,22 +67,24 @@ public class SearchFragment extends Fragment {
     ListView searchPlant;
     EditText textSearch;
     PlantListAdapter adapter;
+    Button editBtn, deleteBtn;
     String[] items1 = new String[]{
             "All", "Plants", "    Vegetable", "    Fruit", "    Herb", "Symptoms", "Disease"
     };
     String[] plantName = new String[] {
             "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis"
+            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
     };
     int[] plantImg = new int[]{
         R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
             R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis
+            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
     };
     ArrayList<PlantListView> plantList = new ArrayList<>();
     ArrayList<PlantListView> plantList1 = new ArrayList<>();
     ArrayList<Plant> plantsList = new ArrayList<>();
     int count = 0;
+    private User user;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -94,13 +101,10 @@ public class SearchFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
         initElement(v);
+        initListView();
         getAllPlant();
 
         System.out.println("size = " + plantList1.size() + " " + plantList.size() + " " + plantsList.size());
-
-        adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, plantList);
-        searchPlant.setAdapter(adapter);
-        searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
 
         textSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,9 +115,14 @@ public class SearchFragment extends Fragment {
                     System.out.println("filter = " + filter1);
                     for (int j = 0; j < plantList.size(); j++) {
                         System.out.println(plantList.get(j).getType());
-                        if (filter1 == "All" || filter1 == "Symptoms" || filter1 == "Disease") {
+                        if (filter1 == "All") {
                             if (plantList.get(j).getName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence)) {
+                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
+                                plantList1.add(plantList.get(j));
+                            }
+                        } else if(filter1 == "Symptoms" || filter1 == "Disease") {
+                            if (plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
                                 plantList1.add(plantList.get(j));
                             }
                         } else {
@@ -138,9 +147,14 @@ public class SearchFragment extends Fragment {
                     System.out.println("filter = " + filter1);
                     for (int j = 0; j < plantList.size(); j++) {
                         System.out.println(plantList.get(j).getType());
-                        if (filter1 == "All" || filter1 == "Symptoms" || filter1 == "Disease") {
+                        if (filter1 == "All") {
                             if (plantList.get(j).getName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence)) {
+                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
+                                plantList1.add(plantList.get(j));
+                            }
+                        } else if(filter1 == "Symptoms" || filter1 == "Disease") {
+                            if (plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
                                 plantList1.add(plantList.get(j));
                             }
                         } else {
@@ -172,9 +186,14 @@ public class SearchFragment extends Fragment {
                 System.out.println("filter = " + filter1);
                 for (int j = 0; j < plantList.size(); j++) {
                     System.out.println(plantList.get(j).getType());
-                    if (filter1 == "All" || filter1 == "Symptoms" || filter1 == "Disease") {
+                    if (filter1 == "All") {
                         if (plantList.get(j).getName().toLowerCase().contains(inp) ||
-                                plantList.get(j).getSciName().toLowerCase().contains(inp)) {
+                                plantList.get(j).getSciName().toLowerCase().contains(inp) ||
+                                plantList.get(j).getTreatments().toLowerCase().contains(inp)) {
+                            plantList1.add(plantList.get(j));
+                        }
+                    } else if(filter1 == "Symptoms" || filter1 == "Disease") {
+                        if (plantList.get(j).getTreatments().toLowerCase().contains(inp)) {
                             plantList1.add(plantList.get(j));
                         }
                     } else {
@@ -195,6 +214,20 @@ public class SearchFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void initListView() {
+        System.out.println("hello user eiei");
+        System.out.println(user);
+        if (user.getStatus().equalsIgnoreCase("user")) {
+            adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, plantList);
+            searchPlant.setAdapter(adapter);
+            searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
+        } else if (user.getStatus().equalsIgnoreCase("admin")) {
+            adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item_admin, plantList);
+            searchPlant.setAdapter(adapter);
+            searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
+        }
     }
 
     private void viewPlantDetail(int i) {
@@ -225,7 +258,7 @@ public class SearchFragment extends Fragment {
                                 }
                             }
                             plantsList.add(plant);
-                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count);
+                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
                             count++;
                             plantList.add(plantListView);
                             plantList1.add(plantListView);
@@ -249,7 +282,7 @@ public class SearchFragment extends Fragment {
                                 }
                             }
                             plantsList.add(plant);
-                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count);
+                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
                             count++;
                             plantList.add(plantListView);
                             plantList1.add(plantListView);
@@ -273,7 +306,7 @@ public class SearchFragment extends Fragment {
                                 }
                             }
                             plantsList.add(plant);
-                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count);
+                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
                             count++;
                             plantList.add(plantListView);
                             plantList1.add(plantListView);
@@ -292,9 +325,10 @@ public class SearchFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
         userId = firebaseUser.getUid();
+
+        storageReference = storage.getReference();
 
         if (firebaseUser == null) {
             navigateToMain();
@@ -305,12 +339,21 @@ public class SearchFragment extends Fragment {
     }
 
     private void setNewAdapter(ArrayList<PlantListView> pl) {
-        PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
-        searchPlant.setAdapter(adapter1);
+        if (user.getStatus().equalsIgnoreCase("user")) {
+            PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
+            searchPlant.setAdapter(adapter1);
+        } else if (user.getStatus().equalsIgnoreCase("admin")) {
+            PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item_admin, pl);
+            searchPlant.setAdapter(adapter1);
+        }
     }
 
     private void navigateToMain() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         getActivity().startActivity(intent);
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

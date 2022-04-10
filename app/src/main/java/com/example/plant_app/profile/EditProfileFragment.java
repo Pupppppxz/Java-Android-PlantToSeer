@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.plant_app.HomeActivity;
 import com.example.plant_app.R;
 import com.example.plant_app.firebase.FirebaseLocal;
+import com.example.plant_app.firebase.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.security.PrivateKey;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditProfileFragment extends Fragment {
 
@@ -49,10 +52,11 @@ public class EditProfileFragment extends Fragment {
     
     private static final int PICK_IMAGE_REQUEST = 25;
     private ProgressDialog progressDialog;
-//    private EditText inputName, inputEmail, inputPassword, inputConfirmPassword;
+    private EditText inputFirstName, inputLastName, inputEmail, inputPassword;
     private ImageButton inputEditImageProfile;
     private Button btnSubmit, btnReset;
     private Uri filePath;
+    private User user;
 
     public EditProfileFragment() {
         // Required empty public constructor
@@ -79,10 +83,20 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void PerformUpdate() {
-//        String name = inputName.getText().toString();
-//        String email = inputEmail.getText().toString();
-//        String password = inputPassword.getText().toString();
-//        String confirmPassword = inputConfirmPassword.getText().toString();
+        String firstname = inputFirstName.getText().toString();
+        String lastname = inputLastName.getText().toString();
+        String email = inputEmail.getText().toString();
+        String password = inputPassword.getText().toString();
+
+        User newUser = new User(firstname, lastname, email, password, user.getStatus(), user.getUserId());
+
+        db.collection("User").document(userId).set(newUser)
+                .addOnSuccessListener(unused -> Toast
+                        .makeText(getActivity(), "updated", Toast.LENGTH_SHORT)
+                        .show())
+                .addOnFailureListener(e -> Toast
+                        .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
+                        .show());
 
         if (filePath != null) {
             progressDialog.setMessage("Please Wait While Update profile..");
@@ -143,10 +157,10 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void initElement(View v) {
-//        inputName = v.findViewById(R.id.edit_profile_name);
-//        inputEmail = v.findViewById(R.id.edit_profile_email);
-//        inputPassword = v.findViewById(R.id.edit_profile_password);
-//        inputConfirmPassword = v.findViewById(R.id.edit_profile_confirm_password);
+        inputFirstName = v.findViewById(R.id.edit_profile_firstname);
+        inputLastName = v.findViewById(R.id.edit_profile_lastname);
+        inputEmail = v.findViewById(R.id.edit_profile_email);
+        inputPassword = v.findViewById(R.id.edit_profile_password);
         inputEditImageProfile = v.findViewById(R.id.edit_profile_insert_image);
         btnSubmit = v.findViewById(R.id.updateProfileBtnSubmit);
         btnReset = v.findViewById(R.id.updateProfileBtnReset);
@@ -158,18 +172,20 @@ public class EditProfileFragment extends Fragment {
         storageReference = storage.getReference();
         db = FirebaseFirestore.getInstance();
         userId = firebaseUser.getUid();
-    }
 
-//    private void clearForm() {
-//        inputName.setText("");
-//        inputEmail.setText("");
-//        inputPassword.setText("");
-//        inputConfirmPassword.setText("");
-//    }
+        inputFirstName.setText(user.getFirstname());
+        inputLastName.setText(user.getLastname());
+        inputEmail.setText(user.getEmail());
+        inputPassword.setText(user.getPassword());
+    }
 
     private void sendUserToHome() {
         Intent intent = new Intent(getActivity(), HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

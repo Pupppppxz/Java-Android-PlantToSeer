@@ -25,7 +25,7 @@ public class OntologyFilteredFragment extends Fragment {
 
     private ListView listViewOfFiltered;
     private OntologySearch ontologySearch;
-    private TextView fBotanicalHabit, fFamily, fPlantType, fPlantTypeValue, fSeason, fVitamin, fMineral, fPlanting, fSoil, fSoilPH, fSun, fwater, fTemp, fHumi, fFert;
+    private TextView fBotanicalHabit, fFamily, fPlantType, fPlantTypeValue, fSeason, fVitamin, fMineral, fPlanting, fSoil, fSoilPH, fSun, fwater, fTemp, fHumi, fFert, plant_name_view;
     private LinearLayout linearFamily, linearSeason, linearNutrient, linearPlanting, linearPlantCare, linearBotanical, linearType;
     private List<Plant> plantsList;
     private List<Plant> plantsFiltered = new ArrayList<>();
@@ -34,12 +34,12 @@ public class OntologyFilteredFragment extends Fragment {
 
     String[] plantName = new String[] {
             "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis"
+            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
     };
     int[] plantImg = new int[]{
             R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
             R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis
+            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
     };
 
     @Override
@@ -222,17 +222,19 @@ public class OntologyFilteredFragment extends Fragment {
             linearPlantCare.setVisibility(v.GONE);
         }
         if (plantsFiltered.size() > 0) {
-            for (int i = 0; i < plantsFiltered.size(); i++) {
+            for (Plant plant : plantsFiltered) {
                 int index = 0;
                 for (int j = 0; j < plantName.length; j++) {
-                    if (plantsFiltered.get(i).getName().toLowerCase().equals(plantName[j])) {
+                    System.out.println(j);
+                    if (plant.getName().toLowerCase().equals(plantName[j])) {
+                        System.out.println("equal");
                         index = j;
                         break;
                     }
-                    PlantListView plantListView = new PlantListView(plantsFiltered.get(i).getName(), plantsFiltered.get(i).getScienceName(), plantsFiltered.get(i).getType(), plantImg[index], i);
-                    plantList.add(plantListView);
-                    break;
                 }
+                System.out.println("plant index = " + index);
+                PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], 0, plant.getTreatments());
+                plantList.add(plantListView);
             }
         }
         System.out.println("plantlist length = " + plantList.size());
@@ -254,6 +256,9 @@ public class OntologyFilteredFragment extends Fragment {
         fTemp = v.findViewById(R.id.ontology_filtered_temp);
         fHumi = v.findViewById(R.id.ontology_filtered_humi);
         fFert = v.findViewById(R.id.ontology_filtered_fert);
+        plant_name_view = v.findViewById(R.id.ontology_filtered_plant_name);
+
+        plant_name_view.setText(ontologySearch.getName());
 
         listViewOfFiltered = v.findViewById(R.id.ontology_filtered_list_view);
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.plant_app.R;
 import com.example.plant_app.firebase.OntologySearch;
@@ -28,6 +29,7 @@ public class OntologyFragment extends Fragment {
     private String oBotanicalHabit = "", oFamily = "", oSeason = "", oVitamin = "", oMineral = "", oVegetableType = "",
             oFruitType = "", oHerbType = "", oPlanting = "", oPlantCare = "", oSoil = "", oSoilPH = "", oSunExposure = "",
             oWater = "", oTemp = "", oHumidity = "", oFert = "";
+    private TextView plantNameView;
     private List<Plant> plantsList;
 
     public OntologyFragment() {
@@ -284,7 +286,7 @@ public class OntologyFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         OntologySearch ontologySearch = new OntologySearch(oBotanicalHabit, oFamily, oSeason, oVitamin, oMineral,
-                oVegetableType, oFruitType, oHerbType, oPlanting, oSoil, oSoilPH, oSunExposure, oWater, oTemp, oHumidity, oFert);
+                oVegetableType, oFruitType, oHerbType, oPlanting, oSoil, oSoilPH, oSunExposure, oWater, oTemp, oHumidity, oFert, plantArg.getName());
         OntologyFilteredFragment ontologyFilteredFragment = new OntologyFilteredFragment();
         ontologyFilteredFragment.setOntologySearch(ontologySearch);
         ontologyFilteredFragment.setAllPlants(plantsList);
@@ -374,6 +376,9 @@ public class OntologyFragment extends Fragment {
         treatment = v.findViewById(R.id.ontology_treatment);
         plantCare = v.findViewById(R.id.ontology_plant_care);
         btnNext = v.findViewById(R.id.plant_ontology_button);
+        plantNameView = v.findViewById(R.id.ontology_plant_name);
+
+        plantNameView.setText(plantArg.getName());
     }
 
     public void setAllPlants(List<Plant> plantsList) {

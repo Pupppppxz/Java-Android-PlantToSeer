@@ -4,17 +4,27 @@ public class PlantListView {
     private String name;
     private String sciName;
     private String type;
+    private String treatments;
     private int img, index;
 
     public PlantListView() {
     }
 
-    public PlantListView(String name, String sciName, String type, int img, int index) {
+    public PlantListView(String name, String sciName, String type, int img, int index, String treatments) {
         this.name = name;
         this.sciName = sciName;
         this.type = type;
         this.img = img;
         this.index = index;
+        this.treatments = treatments;
+    }
+
+    public String getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(String treatments) {
+        this.treatments = treatments;
     }
 
     public String getName() {

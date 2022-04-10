@@ -2,13 +2,13 @@ package com.example.plant_app.firebase;
 
 public class OntologySearch {
     private String botanicalHabit, family, season, vitamin, mineral, vegetableType, fruitType, herbType,
-            planting, soil, soilPH, sunExposure, water, temp, humidity, fert;
+            planting, soil, soilPH, sunExposure, water, temp, humidity, fert, name;
 
     public OntologySearch(){}
 
     public OntologySearch(String botanicalHabit, String family, String season, String vitamin, String mineral,
                           String vegetableType, String fruitType, String herbType, String planting, String soil,
-                          String soilPH, String sunExposure, String water, String temp, String humidity, String fert) {
+                          String soilPH, String sunExposure, String water, String temp, String humidity, String fert, String name) {
         this.botanicalHabit = botanicalHabit;
         this.family = family;
         this.season = season;
@@ -25,6 +25,15 @@ public class OntologySearch {
         this.temp = temp;
         this.humidity = humidity;
         this.fert = fert;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBotanicalHabit() {
