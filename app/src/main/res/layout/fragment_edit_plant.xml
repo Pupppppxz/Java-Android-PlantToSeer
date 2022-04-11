@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".edit_plant.EditPlantFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit "
+            android:textColor="@color/fontColor"
+            android:layout_marginBottom="20dp"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/edit_plant_name_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plant name"
+            android:textColor="@color/fontColor"
+            android:layout_marginBottom="20dp"
+            android:textSize="25dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!--    name    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Name:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_name"/>
+
+            <!--    sci name    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Scientific Name:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_sci_name"/>
+
+            <!--    family    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Family:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_family"/>
+
+            <!--    family description    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Family Description:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_family_desc"/>
+
+            <!--    botanical habit    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Botanical Habit:"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:minHeight="30dp"
+                android:background="@drawable/bg_spinner"
+                android:id="@+id/edit_fruit_bot_habit"/>
+
+            <!--    desc    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Description:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:lines="3"
+                android:minLines="2"
+                android:maxLines="15"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:id="@+id/edit_fruit_desc"/>
+
+            <!--    season    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Season:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_season"/>
+
+            <!--    nutrient    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Nutrient:"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Vitamin:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_vitamin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Mineral:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_mineral"/>
+            </LinearLayout>
+
+            <!--    harvest time    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Harvest time:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_harv"/>
+
+            <!--    treatments    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Treatments:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:id="@+id/edit_fruit_treatment"/>
+
+            <!--    classification    -->
+
+            <TextView
+                android:id="@+id/edit_classificaton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Classification of Fruit:" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:minHeight="30dp"
+                android:background="@drawable/bg_spinner"
+                android:id="@+id/edit_fruit_bot_classi"/>
+
+            <!--    planting    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Planting:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:lines="3"
+                android:minLines="2"
+                android:maxLines="20"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:id="@+id/edit_fruit_planting"/>
+
+            <!--    plant care    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Plant Care:"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Soil:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_soil"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Soil pH:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_soilpH"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Sun Exposure:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_sun"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Water:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_water"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Temperature:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_temp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Humidity:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_humi"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:text="Fertilizer:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:id="@+id/edit_fruit_fert"/>
+
+            </LinearLayout>
+
+            <!--    insert image    -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font_family"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text="Image:"/>
+
+            <ImageButton
+                android:id="@+id/btnImageEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:backgroundTint="@null"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_insert_image"/>
+
+            <!--      button      -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/editFruitBtnReset"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:background="@drawable/rounded_button_cancel"
+                    android:textColor="@color/black"
+                    android:textAllCaps="false"
+                    android:textSize="22dp"
+                    android:text="Cancel"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    />
+
+                <Button
+                    android:id="@+id/editFruitBtnSubmit"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_family"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="@color/black"
+                    android:textAllCaps="false"
+                    android:textSize="22dp"
+                    android:text="Save"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
