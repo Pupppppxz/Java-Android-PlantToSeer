@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         initElement(v);
-
+        initUser(userId);
         getVegetable(v);
         getFruit(v);
         getHerb(v);
@@ -139,25 +139,27 @@ public class HomeFragment extends Fragment {
             navigateToMain();
         }
 
+        helloUser = v.findViewById(R.id.home_popup);
+        iconList = v.findViewById(R.id.profile_list_icon);
+
         storageReference = storage.getReference()
                 .child(FirebaseLocal.storagePathForImageUpload + userId + "/profile");
         try {
             final File localFile = File.createTempFile("profile", "jpg");
             storageReference.getFile(localFile)
                     .addOnSuccessListener(taskSnapshot -> {
-                        System.out.println("downloaded image");
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                        profilePicture = v.findViewById(R.id.home_profile_picture);
-                        profilePicture.setImageBitmap(bitmap);
+                        try {
+                            System.out.println("downloaded image");
+                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            profilePicture = v.findViewById(R.id.home_profile_picture);
+                            profilePicture.setImageBitmap(bitmap);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
                     }).addOnFailureListener(e -> System.out.println(e));
         } catch (Exception e) {
             System.out.println(e);
         }
-
-        userId = firebaseUser.getUid();
-        initUser(userId);
-        helloUser = v.findViewById(R.id.home_popup);
-        iconList = v.findViewById(R.id.profile_list_icon);
 
         vege1 = v.findViewById(R.id.home_vegetable1);
         vege2 = v.findViewById(R.id.home_vegetable2);
@@ -168,6 +170,7 @@ public class HomeFragment extends Fragment {
         he1 = v.findViewById(R.id.home_herb1);
         he2 = v.findViewById(R.id.home_herb2);
         he3 = v.findViewById(R.id.home_herb3);
+
     }
 
     private void getAllPlants() {
@@ -372,7 +375,12 @@ public class HomeFragment extends Fragment {
                         DocumentSnapshot document = task.getResult();
                         if (document != null) {
                             user = document.toObject(User.class);
-                            helloUser.setText("Hello,\n" + user.getFirstname() + " " + user.getLastname());
+                            System.out.println(user);
+                            try {
+                                helloUser.setText("Hello,\n" + user.getFirstname() + " " + user.getLastname());
+                            } catch (Exception e) {
+                                System.out.println("Error to get user");
+                            }
                         } else {
                             Log.d(TAG, "No such document");
                         }

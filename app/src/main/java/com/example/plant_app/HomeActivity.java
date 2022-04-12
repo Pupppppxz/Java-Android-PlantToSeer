@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
                             user = document.toObject(User.class);
                         } else {
                             Log.d(TAG, "No such document");
+                            sendUserMain();
                         }
                     } else {
                         Log.d(TAG, "No such document");
@@ -77,6 +78,12 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.homeFrameLayout, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void sendUserMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

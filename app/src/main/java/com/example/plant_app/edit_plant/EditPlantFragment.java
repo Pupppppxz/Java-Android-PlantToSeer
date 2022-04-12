@@ -408,6 +408,9 @@ public class EditPlantFragment extends Fragment {
                         });
             } else {
                 System.out.println("file path = null");
+                Toast
+                        .makeText(getActivity(), "Please select plant image", Toast.LENGTH_SHORT)
+                        .show();
             }
         }
     }
