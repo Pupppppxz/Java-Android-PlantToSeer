@@ -359,6 +359,7 @@ public class FavouritePageFragment extends Fragment {
             }
         }));
     }
+    
 
     private void initHerbAdapter(View v) {
 

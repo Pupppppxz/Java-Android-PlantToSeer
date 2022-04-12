@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.plant_app.databinding.ActivityHomeBinding;
+import com.example.plant_app.edit_plant.EditPlantFragment;
 import com.example.plant_app.firebase.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,9 +50,7 @@ public class HomeActivity extends AppCompatActivity {
                     replaceFragment(new ProfileFragment());
                     break;
             }
-
             return true;
-
         });
     }
 

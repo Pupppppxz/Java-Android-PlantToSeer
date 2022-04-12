@@ -14,20 +14,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.plant_app.HomeActivity;
 import com.example.plant_app.MainActivity;
 import com.example.plant_app.R;
+import com.example.plant_app.edit_plant.EditPlantFragment;
 import com.example.plant_app.firebase.Plant;
 import com.example.plant_app.firebase.PlantLiked;
 import com.example.plant_app.firebase.PlantListView;
+import com.example.plant_app.firebase.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -50,11 +57,12 @@ public class PlantDetailFragment extends Fragment {
 
     Plant plantArg;
     private List<Plant> plantsList;
+    private List<User> allUser = new ArrayList<>();
     private TextView pName, pSciName, pFamily, pFamDescription, pHabit, pDescription, pSeason, pVitamin,
     pMineral, pTreatment, pHarvestTime, pPlanting, pSoil, pSoilPH, pSun, pWater, pTemp, pHumi, pFert;
     private ImageView favourite, pImage, arrowHarvest, arrowPlanting, arrowPlantCare;
     private LinearLayout pLinearHarvest, pLinearPlanting, pLinearPlantCare, pLinearPlantCareAll;
-    private Button ontology;
+    private Button ontology, adminEdit, adminDelete;
     private boolean checkIsFavoritePlant = false;
 
     String[] plantName = new String[] {
@@ -103,10 +111,89 @@ public class PlantDetailFragment extends Fragment {
                 checkIsFavoritePlant = true;
             }
         });
+        
+        adminDelete.setOnClickListener(view -> getAllUsers());
+        adminEdit.setOnClickListener(view -> editPlant());
 
         ontology.setOnClickListener(view -> seeOntology(plantArg));
 
         return v;
+    }
+
+    private void editPlant() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        EditPlantFragment editPlantFragment = new EditPlantFragment();
+        editPlantFragment.setPlant(plantArg);
+        fragmentTransaction.replace(R.id.homeFrameLayout, editPlantFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void getAllUsers() {
+        System.out.println("start get all user");
+        db.collection("User").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot users : queryDocumentSnapshots) {
+                            User usersss = users.toObject(User.class);
+                            System.out.println("get user = " + usersss);
+                            allUser.add(usersss);
+                        }
+                    }
+                }).addOnFailureListener(e -> Toast
+                        .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT)
+                        .show())
+                .addOnCompleteListener(task -> {
+                    System.out.println("end get all user");
+                    deletePlant();
+                });
+
+    }
+
+    private void deletePlant() {
+        System.out.println("size of user = " + allUser.size());
+        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        for (int i = 0; i < allUser.size(); i++) {
+            try {
+                System.out.println("delete on " + allUser.get(i).getFirstname() + " " + plantArg.getName());
+                db1.collection("LIKE$$" + allUser.get(i).getUserId()).document(plantArg.getName())
+                    .delete()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                System.out.println("Deleted!");
+                            } else {
+                                System.out.println("Error to delete");
+                            }
+                        });
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+        for (int i = 0; i < allUser.size(); i++) {
+            try {
+                System.out.println("delete on " + allUser.get(i).getFirstname() + " " + plantArg.getName());
+                db2.collection(allUser.get(i).getUserId()).document(plantArg.getName())
+                        .delete()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                System.out.println("Deleted!");
+                            } else {
+                                System.out.println("Error to delete");
+                            }
+                        });
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        DocumentReference db3 = FirebaseFirestore.getInstance().collection(plantArg.getType()).document(plantArg.getName());
+        db3.delete()
+                .addOnCompleteListener(task -> {
+                    System.out.println("Remove complete");
+                    sendUserToActivity();
+                });
     }
 
     private void seeOntology(Plant plant) {
@@ -226,6 +313,9 @@ public class PlantDetailFragment extends Fragment {
         if (firebaseUser == null) {
             navigateToMain();
         }
+
+        adminEdit = v.findViewById(R.id.plant_detail_btn_admin_edit);
+        adminDelete = v.findViewById(R.id.plant_detail_btn_admin_delete);
     }
 
     private void saveToFavorite() {
@@ -290,5 +380,11 @@ public class PlantDetailFragment extends Fragment {
     private void navigateToMain() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         getActivity().startActivity(intent);
+    }
+
+    private void sendUserToActivity() {
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

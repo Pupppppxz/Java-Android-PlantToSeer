@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -89,6 +90,7 @@ public class ProfileFragment extends Fragment {
     List<PlantListView> profileHerbs = new ArrayList<>();
     private ArrayList<Plant> plantsList = new ArrayList<>();
     LinearLayoutManager mLayoutManager, mLayoutManager1, mLayoutManager2;
+    private LinearLayout linearVegetable, linearFruit, linearHerb;
     private User user;
 
     public ProfileFragment() {
@@ -141,10 +143,14 @@ public class ProfileFragment extends Fragment {
 
     private void viewPlantDetail(String name) {
 
+        System.out.println("click on = " + name);
+
         PlantDetailFragment plantDetailFragment = new PlantDetailFragment();
         for (int i = 0; i < plantsList.size(); i++) {
+            System.out.println(plantsList.get(i));
             if (plantsList.get(i).getName().equalsIgnoreCase(name)) {
                 plantDetailFragment.setPlant(plantsList.get(i));
+                break;
             }
         }
         plantDetailFragment.setAllPlants(plantsList);
@@ -186,17 +192,17 @@ public class ProfileFragment extends Fragment {
                         if (pVege.size() > 0) {
                             this.profileVegetables = new ArrayList<>(pVege);
                         } else {
-                            vegetableRecycle.setVisibility(v.GONE);
+                            linearVegetable.setVisibility(v.GONE);
                         }
                         if (pFruit.size() > 0) {
                             this.profileFruits = new ArrayList<>(pFruit);
                         } else {
-                            fruitRecycle.setVisibility(v.GONE);
+                            linearFruit.setVisibility(v.GONE);
                         }
                         if (pHerb.size() > 0) {
                             this.profileHerbs = new ArrayList<>(pHerb);
                         } else {
-                            herbRecycle.setVisibility(v.GONE);
+                            linearHerb.setVisibility(v.GONE);
                         }
                         initAdapter(v);
                     }
@@ -233,6 +239,10 @@ public class ProfileFragment extends Fragment {
         if (firebaseUser == null) {
             navigateToMain();
         }
+
+        linearVegetable = v.findViewById(R.id.profile_linear_vegetable);
+        linearFruit = v.findViewById(R.id.profile_linear_fruit);
+        linearHerb = v.findViewById(R.id.profile_linear_herb);
 
         iconList = v.findViewById(R.id.profile_list_icon);
         helloUser = v.findViewById(R.id.profile_user_name);

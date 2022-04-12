@@ -22,34 +22,8 @@ public class Plant {
     private String botanicalHabit;
     private String classification;
     private String type;
-    private String imageUrl;
+    private String owner;
     public Plant() {}
-    public Plant(String name, String scienceName, String families, String familyDescription, String description,
-                 String season, String vitamin, String mineral, String harvestTime, String treatments, String planting,
-                 String soil, String soilPH, String sunExposure, String water, String temperature, String humidity,
-                 String fertilizer, String botanicalHabit, String classification, String type) {
-        this.name = name;
-        this.scienceName = scienceName;
-        this.families = families;
-        this.familyDescription = familyDescription;
-        this.description = description;
-        this.season = season;
-        this.vitamin = vitamin;
-        this.mineral = mineral;
-        this.harvestTime = harvestTime;
-        this.treatments = treatments;
-        this.planting = planting;
-        this.soil = soil;
-        this.soilPH = soilPH;
-        this.sunExposure = sunExposure;
-        this.water = water;
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.fertilizer = fertilizer;
-        this.botanicalHabit = botanicalHabit;
-        this.classification = classification;
-        this.type = type;
-    }
     public Plant(String name, String scienceName, String families, String familyDescription, String description,
                  String season, String vitamin, String mineral, String harvestTime, String treatments, String planting,
                  String soil, String soilPH, String sunExposure, String water, String temperature, String humidity,
@@ -75,6 +49,56 @@ public class Plant {
         this.botanicalHabit = botanicalHabit;
         this.type = type;
     }
+
+    public Plant(String name, String scienceName, String families, String familyDescription, String description, String season, String vitamin, String mineral, String harvestTime, String treatments, String planting, String soil, String soilPH, String sunExposure, String water, String temperature, String humidity, String fertilizer, String botanicalHabit, String classification, String type, String owner) {
+        this.name = name;
+        this.scienceName = scienceName;
+        this.families = families;
+        this.familyDescription = familyDescription;
+        this.description = description;
+        this.season = season;
+        this.vitamin = vitamin;
+        this.mineral = mineral;
+        this.harvestTime = harvestTime;
+        this.treatments = treatments;
+        this.planting = planting;
+        this.soil = soil;
+        this.soilPH = soilPH;
+        this.sunExposure = sunExposure;
+        this.water = water;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.fertilizer = fertilizer;
+        this.botanicalHabit = botanicalHabit;
+        this.classification = classification;
+        this.type = type;
+        this.owner = owner;
+    }
+
+    public Plant(String name, String scienceName, String families, String familyDescription, String description, String season, String vitamin, String mineral, String harvestTime, String treatments, String planting, String soil, String soilPH, String sunExposure, String water, String temperature, String humidity, String fertilizer, String botanicalHabit, String type, String owner) {
+        this.name = name;
+        this.scienceName = scienceName;
+        this.families = families;
+        this.familyDescription = familyDescription;
+        this.description = description;
+        this.season = season;
+        this.vitamin = vitamin;
+        this.mineral = mineral;
+        this.harvestTime = harvestTime;
+        this.treatments = treatments;
+        this.planting = planting;
+        this.soil = soil;
+        this.soilPH = soilPH;
+        this.sunExposure = sunExposure;
+        this.water = water;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.fertilizer = fertilizer;
+        this.botanicalHabit = botanicalHabit;
+        this.type = type;
+        this.owner = owner;
+    }
+
     public String getName() {
         return name;
     }
@@ -201,11 +225,13 @@ public class Plant {
     public void setType(String type) {
         this.type = type;
     }
-    public String getImageUrl() {
-        return imageUrl;
+
+    public String getOwner() {
+        return owner;
     }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @Override

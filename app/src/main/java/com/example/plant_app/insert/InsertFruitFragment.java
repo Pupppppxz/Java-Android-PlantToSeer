@@ -81,26 +81,13 @@ public class InsertFruitFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_insert_fruit, container, false);
 
         initElement(v);
-        imageSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectImage();
-            }
-        });
+        imageSelect.setOnClickListener(view -> SelectImage());
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clearForm();
-            }
-        });
+        btnReset.setOnClickListener(view -> clearForm());
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("click btn submit");
-                PerformInsertFruit();
-            }
+        btnSubmit.setOnClickListener(view -> {
+            System.out.println("click btn submit");
+            PerformInsertFruit();
         });
 
         return v;
@@ -273,33 +260,17 @@ public class InsertFruitFragment extends Fragment {
         fruit.put(KeyInsert.OWNER, userId);
 
         db.collection(userId).document(sname).set(fruit)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getActivity(), "Insert fruit successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
+                .addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Insert fruit successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
                 });
 
         db.collection("FRUIT").document(sname).set(fruit)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getActivity(), "Insert fruit successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
+                .addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Insert fruit successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
                 });
     }
 

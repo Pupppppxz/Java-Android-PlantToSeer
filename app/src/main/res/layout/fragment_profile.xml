@@ -96,21 +96,22 @@
             </LinearLayout>
 
             <!--    vegetable    -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/font_family"
-                android:text="@string/home_fragment_vegetable"/>
-
             <LinearLayout
                 android:id="@+id/profile_linear_vegetable"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family"
+                    android:text="@string/home_fragment_vegetable"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profile_vegetable_recycle"
@@ -121,20 +122,22 @@
             </LinearLayout>
 
             <!--    fruit    -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/font_family"
-                android:text="@string/home_fragment_fruit"/>
-
             <LinearLayout
+                android:id="@+id/profile_linear_fruit"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family"
+                    android:text="@string/home_fragment_fruit"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profile_fruit_recycle"
@@ -144,20 +147,22 @@
             </LinearLayout>
 
             <!--    fruit    -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/font_family"
-                android:text="@string/home_fragment_herb"/>
-
             <LinearLayout
+                android:id="@+id/profile_linear_herb"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family"
+                    android:text="@string/home_fragment_herb"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profile_herb_recycle"

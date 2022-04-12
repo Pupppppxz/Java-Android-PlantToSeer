@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,11 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.etPassword);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
 
         signupButton.setOnClickListener(view -> navigateToSignUp());
 
         loginButton.setOnClickListener(view -> performLogin());
+
     }
 
     private void performLogin() {
@@ -59,16 +60,23 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
-            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    progressDialog.dismiss();
-                    sendUserToActivity();
-                    Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            progressDialog.dismiss();
+                            firebaseUser = firebaseAuth.getCurrentUser();
+                            if (firebaseUser != null) {
+                                sendUserToActivity();
+                            }
+                            Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, "Email or Password Incorrect", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(LoginActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
+                    });
         }
     }
 
@@ -80,11 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void navigateToSignUp() {
         Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
-    public void navigateToHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }

@@ -23,8 +23,12 @@ import com.example.plant_app.HomeActivity;
 import com.example.plant_app.R;
 import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.firebase.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -83,20 +87,15 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void PerformUpdate() {
+
         String firstname = inputFirstName.getText().toString();
         String lastname = inputLastName.getText().toString();
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
-
         User newUser = new User(firstname, lastname, email, password, user.getStatus(), user.getUserId());
 
-        db.collection("User").document(userId).set(newUser)
-                .addOnSuccessListener(unused -> Toast
-                        .makeText(getActivity(), "updated", Toast.LENGTH_SHORT)
-                        .show())
-                .addOnFailureListener(e -> Toast
-                        .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
-                        .show());
+        updateAuthPassword(email, password);
+        updateUserDetail(newUser);
 
         if (filePath != null) {
             progressDialog.setMessage("Please Wait While Update profile..");
@@ -128,6 +127,30 @@ public class EditProfileFragment extends Fragment {
         } else {
             System.out.println("file path = null");
         }
+    }
+
+    private void updateUserDetail(User newUser) {
+        db.collection("User").document(userId).set(newUser)
+                .addOnSuccessListener(unused -> Toast
+                        .makeText(getActivity(), "updated", Toast.LENGTH_SHORT)
+                        .show())
+                .addOnFailureListener(e -> Toast
+                        .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
+                        .show());
+    }
+
+    private void updateAuthPassword(String email, String password) {
+        AuthCredential credential = EmailAuthProvider.getCredential(email, user.getPassword());
+        firebaseUser.reauthenticate(credential)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        firebaseUser.updatePassword(password)
+                                .addOnCompleteListener(task1 -> System.out.println("complete updated password!"));
+                    } else {
+                        System.out.println("Error to update password");
+                    }
+                })
+                .addOnFailureListener(e -> System.out.println("Error to complete password!"));
     }
 
     private void SelectImage() {

@@ -55,25 +55,25 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/search_btn_admin_edit"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:text="Edit"
-                android:textSize="14dp"
-                android:fontFamily="@font/font_family"
-                android:background="@drawable/rounded_button_edit"/>
+<!--            <Button-->
+<!--                android:id="@+id/search_btn_admin_edit"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:text="Edit"-->
+<!--                android:textSize="14dp"-->
+<!--                android:fontFamily="@font/font_family"-->
+<!--                android:background="@drawable/rounded_button_edit"/>-->
 
-            <Button
-                android:id="@+id/search_btn_admin_delete"
-                android:layout_marginLeft="5dp"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:textColor="@color/white"
-                android:textSize="14dp"
-                android:fontFamily="@font/font_family"
-                android:text="Delete"
-                android:background="@drawable/rounded_button_delete"/>
+<!--            <Button-->
+<!--                android:id="@+id/search_btn_admin_delete"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="14dp"-->
+<!--                android:fontFamily="@font/font_family"-->
+<!--                android:text="Delete"-->
+<!--                android:background="@drawable/rounded_button_delete"/>-->
 
         </LinearLayout>
     </LinearLayout>

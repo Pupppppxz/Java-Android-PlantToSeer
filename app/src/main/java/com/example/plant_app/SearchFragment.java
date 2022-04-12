@@ -109,34 +109,7 @@ public class SearchFragment extends Fragment {
         textSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() != 0) {
-                    plantList1 = new ArrayList<>();
-                    String filter1 = searchSpinner.getSelectedItem().toString().trim();
-                    System.out.println("filter = " + filter1);
-                    for (int j = 0; j < plantList.size(); j++) {
-                        System.out.println(plantList.get(j).getType());
-                        if (filter1 == "All") {
-                            if (plantList.get(j).getName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
-                                plantList1.add(plantList.get(j));
-                            }
-                        } else if(filter1 == "Symptoms" || filter1 == "Disease") {
-                            if (plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
-                                plantList1.add(plantList.get(j));
-                            }
-                        } else {
-                            if ((plantList.get(j).getName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence)) &&
-                                    plantList.get(j).getType().toLowerCase().contains(filter1.toLowerCase())) {
-                                plantList1.add(plantList.get(j));
-                            }
-                        }
-                    }
-                    setNewAdapter(plantList1);
-                } else {
-                    setNewAdapter(plantList);
-                }
+
             }
 
             @Override
@@ -144,23 +117,49 @@ public class SearchFragment extends Fragment {
                 if (charSequence.length() != 0) {
                     plantList1 = new ArrayList<>();
                     String filter1 = searchSpinner.getSelectedItem().toString().trim();
+                    String inpLower = textSearch.getText().toString().toLowerCase();
+                    String inpCapital = "";
+                    if (inpLower.length() > 1) {
+                        inpCapital = inpLower.substring(0, 1).toUpperCase() + inpLower.substring(1);
+                    }
                     System.out.println("filter = " + filter1);
                     for (int j = 0; j < plantList.size(); j++) {
                         System.out.println(plantList.get(j).getType());
                         if (filter1 == "All") {
                             if (plantList.get(j).getName().toLowerCase().contains(charSequence) ||
                                     plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getName().contains(inpCapital) ||
+                                    plantList.get(j).getSciName().contains(inpCapital) ||
+                                    plantList.get(j).getTreatments().contains(inpCapital) ||
+                                    plantList.get(j).getName().contains(charSequence) ||
+                                    plantList.get(j).getSciName().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().contains(charSequence) ||
+                                    plantList.get(j).getName().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getSciName().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getTreatments().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getName().equalsIgnoreCase(inpCapital) ||
+                                    plantList.get(j).getSciName().equalsIgnoreCase(inpCapital) ||
+                                    plantList.get(j).getTreatments().equalsIgnoreCase(inpCapital)) {
                                 plantList1.add(plantList.get(j));
                             }
                         } else if(filter1 == "Symptoms" || filter1 == "Disease") {
-                            if (plantList.get(j).getTreatments().toLowerCase().contains(charSequence)) {
+                            if (plantList.get(j).getTreatments().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().contains(inpCapital) ||
+                                    plantList.get(j).getTreatments().equalsIgnoreCase(charSequence.toString())) {
                                 plantList1.add(plantList.get(j));
                             }
                         } else {
                             if ((plantList.get(j).getName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence)) &&
-                            plantList.get(j).getType().toLowerCase().contains(filter1.toLowerCase())) {
+                                    plantList.get(j).getName().contains(charSequence) ||
+                                    plantList.get(j).getName().contains(inpCapital) ||
+                                    plantList.get(j).getName().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getSciName().contains(charSequence) ||
+                                    plantList.get(j).getSciName().contains(inpCapital) ||
+                                    plantList.get(j).getSciName().equalsIgnoreCase(charSequence.toString())) &&
+                                    plantList.get(j).getType().toLowerCase().contains(filter1.toLowerCase())) {
                                 plantList1.add(plantList.get(j));
                             }
                         }
@@ -181,6 +180,11 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String inp = textSearch.getText().toString();
+                String inpLower = textSearch.getText().toString().toLowerCase();
+                String inpCapital = "";
+                if (inpLower.length() > 1) {
+                    inpCapital = inpLower.substring(0, 1).toUpperCase() + inpLower.substring(1);
+                }
                 plantList1 = new ArrayList<>();
                 String filter1 = searchSpinner.getSelectedItem().toString().trim();
                 System.out.println("filter = " + filter1);
@@ -189,16 +193,37 @@ public class SearchFragment extends Fragment {
                     if (filter1 == "All") {
                         if (plantList.get(j).getName().toLowerCase().contains(inp) ||
                                 plantList.get(j).getSciName().toLowerCase().contains(inp) ||
-                                plantList.get(j).getTreatments().toLowerCase().contains(inp)) {
+                                plantList.get(j).getTreatments().toLowerCase().contains(inp) ||
+                                plantList.get(j).getName().contains(inpCapital) ||
+                                plantList.get(j).getSciName().contains(inpCapital) ||
+                                plantList.get(j).getTreatments().contains(inpCapital) ||
+                                plantList.get(j).getName().contains(inp) ||
+                                plantList.get(j).getSciName().contains(inp) ||
+                                plantList.get(j).getTreatments().contains(inp) ||
+                                plantList.get(j).getName().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getSciName().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getTreatments().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getName().equalsIgnoreCase(inpCapital) ||
+                                plantList.get(j).getSciName().equalsIgnoreCase(inpCapital) ||
+                                plantList.get(j).getTreatments().equalsIgnoreCase(inpCapital)) {
                             plantList1.add(plantList.get(j));
                         }
                     } else if(filter1 == "Symptoms" || filter1 == "Disease") {
-                        if (plantList.get(j).getTreatments().toLowerCase().contains(inp)) {
+                        if (plantList.get(j).getTreatments().toLowerCase().contains(inp) ||
+                                plantList.get(j).getTreatments().contains(inp) ||
+                                plantList.get(j).getTreatments().contains(inpCapital) ||
+                                plantList.get(j).getTreatments().equalsIgnoreCase(inp)) {
                             plantList1.add(plantList.get(j));
                         }
                     } else {
                         if ((plantList.get(j).getName().toLowerCase().contains(inp) ||
-                                plantList.get(j).getSciName().toLowerCase().contains(inp)) &&
+                                plantList.get(j).getName().contains(inp) ||
+                                plantList.get(j).getName().contains(inpCapital) ||
+                                plantList.get(j).getName().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getSciName().toLowerCase().contains(inp) ||
+                                plantList.get(j).getSciName().contains(inp) ||
+                                plantList.get(j).getSciName().contains(inpCapital) ||
+                                plantList.get(j).getSciName().equalsIgnoreCase(inp)) &&
                                 plantList.get(j).getType().toLowerCase().contains(filter1.toLowerCase())) {
                             plantList1.add(plantList.get(j));
                         }
@@ -224,7 +249,7 @@ public class SearchFragment extends Fragment {
             searchPlant.setAdapter(adapter);
             searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
         } else if (user.getStatus().equalsIgnoreCase("admin")) {
-            adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item_admin, plantList);
+            adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, plantList);
             searchPlant.setAdapter(adapter);
             searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
         }
@@ -343,7 +368,7 @@ public class SearchFragment extends Fragment {
             PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
             searchPlant.setAdapter(adapter1);
         } else if (user.getStatus().equalsIgnoreCase("admin")) {
-            PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item_admin, pl);
+            PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
             searchPlant.setAdapter(adapter1);
         }
     }

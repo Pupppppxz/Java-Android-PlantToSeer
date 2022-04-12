@@ -95,8 +95,6 @@ public class HomeFragment extends Fragment {
 
         initElement(v);
 
-        initUser(userId);
-
         getVegetable(v);
         getFruit(v);
         getHerb(v);
@@ -157,6 +155,7 @@ public class HomeFragment extends Fragment {
         }
 
         userId = firebaseUser.getUid();
+        initUser(userId);
         helloUser = v.findViewById(R.id.home_popup);
         iconList = v.findViewById(R.id.profile_list_icon);
 
@@ -365,6 +364,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initUser(String id) {
+        System.out.println("user id = " + id);
         DocumentReference db = FirebaseFirestore.getInstance().collection("User").document(id);
         db.get()
                 .addOnCompleteListener(task -> {
@@ -380,6 +380,7 @@ public class HomeFragment extends Fragment {
                         Log.d(TAG, "No such document");
                     }
                 });
+        System.out.println(user);
     }
 
     private void replaceFragment(Fragment fragment) {

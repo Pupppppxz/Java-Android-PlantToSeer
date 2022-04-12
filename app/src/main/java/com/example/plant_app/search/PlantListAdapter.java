@@ -1,5 +1,6 @@
 package com.example.plant_app.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
 
     private Context mContext;
     int mResource;
-    Button btnDelete, btnEdit;
+    Button btnDelete;
 
     public PlantListAdapter(Context context, int resource, ArrayList<PlantListView> objects) {
         super(context, resource, objects);
@@ -57,24 +58,6 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-        try {
-            btnEdit = convertView.findViewById(R.id.search_btn_admin_edit);
-            btnDelete = convertView.findViewById(R.id.search_btn_admin_delete);
-
-            btnDelete.setOnClickListener(view -> {
-                System.out.println("deleteeeeeeeeeeeeeeee" + name);
-                deletePlant(type, name);
-                Intent intent = new Intent(view.getContext(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                view.getContext().startActivity(intent);
-            });
-
-            btnEdit.setOnClickListener(view -> {
-                System.out.println("editttttttttttttttttttttttttttt");
-            });
-        } catch (Exception e) {
-            System.out.println(e);
-        }
 
         ImageView pImageView = convertView.findViewById(R.id.plant_list_view_image);
         TextView pNameView = convertView.findViewById(R.id.plant_list_view_1);
@@ -85,19 +68,5 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
         pImageView.setImageResource(img);
 
         return convertView;
-    }
-
-    private void deletePlant(String type, String pName) {
-        DocumentReference db = FirebaseFirestore.getInstance().collection(type).document(pName);
-        db.delete()
-                .addOnSuccessListener(unused -> {
-                    System.out.println("Deleted!");
-                })
-                .addOnFailureListener(e -> System.out.println("failed"));
-        String userId = FirebaseAuth.getInstance().getUid();
-        DocumentReference db1 = FirebaseFirestore.getInstance().collection("LIKE$$" + userId).document(pName);
-        db1.delete()
-                .addOnSuccessListener(unused -> System.out.println("Deleted!"))
-                .addOnFailureListener(e -> System.out.println("failed"));
     }
 }
