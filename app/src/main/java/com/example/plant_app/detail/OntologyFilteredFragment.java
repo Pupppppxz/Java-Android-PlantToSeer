@@ -189,6 +189,9 @@ public class OntologyFilteredFragment extends Fragment {
             }
             System.out.println("pass 7");
             plantsFiltered = new ArrayList<>(temp);
+        } else {
+            linearTreatment.setVisibility(v.GONE);
+            System.out.println("pass 7");
         }
         System.out.println("size 6 = " + plantsFiltered.size());
         if (!ontologySearch.getPlanting().equalsIgnoreCase("") && plantsFiltered.size() > 0) {

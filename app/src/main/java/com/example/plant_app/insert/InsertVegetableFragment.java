@@ -203,7 +203,7 @@ public class InsertVegetableFragment extends Fragment {
                     .show();
         } else {
 
-            db.collection("HERB").document(inputName).get()
+            db.collection("VEGETABLE").document(inputName).get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             DocumentSnapshot doc = task.getResult();
@@ -243,6 +243,7 @@ public class InsertVegetableFragment extends Fragment {
                                             .makeText(getActivity(), "Please select image", Toast.LENGTH_SHORT)
                                             .show();
                                 }
+                                System.out.println("not exist");
                             } else {
                                 Toast
                                         .makeText(getActivity(), "Plant name already exist", Toast.LENGTH_SHORT)
