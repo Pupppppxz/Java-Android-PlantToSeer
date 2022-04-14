@@ -160,6 +160,29 @@ public class OntologySearch {
         return fert;
     }
 
+    @Override
+    public String toString() {
+        return "OntologySearch{" +
+                "botanicalHabit='" + botanicalHabit + '\'' +
+                ", family='" + family + '\'' +
+                ", season='" + season + '\'' +
+                ", vitamin='" + vitamin + '\'' +
+                ", mineral='" + mineral + '\'' +
+                ", vegetableType='" + vegetableType + '\'' +
+                ", fruitType='" + fruitType + '\'' +
+                ", herbType='" + herbType + '\'' +
+                ", planting='" + planting + '\'' +
+                ", soil='" + soil + '\'' +
+                ", soilPH='" + soilPH + '\'' +
+                ", sunExposure='" + sunExposure + '\'' +
+                ", water='" + water + '\'' +
+                ", temp='" + temp + '\'' +
+                ", humidity='" + humidity + '\'' +
+                ", fert='" + fert + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public void setFert(String fert) {
         this.fert = fert;
     }

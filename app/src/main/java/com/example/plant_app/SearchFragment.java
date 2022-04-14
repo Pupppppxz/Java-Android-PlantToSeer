@@ -3,6 +3,8 @@ package com.example.plant_app;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.plant_app.detail.PlantDetailFragment;
+import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.firebase.Plant;
 import com.example.plant_app.firebase.PlantLiked;
 import com.example.plant_app.firebase.PlantListView;
@@ -67,18 +70,8 @@ public class SearchFragment extends Fragment {
     ListView searchPlant;
     EditText textSearch;
     PlantListAdapter adapter;
-    Button editBtn, deleteBtn;
     String[] items1 = new String[]{
             "All", "Plants", "    Vegetable", "    Fruit", "    Herb", "Symptoms", "Disease"
-    };
-    String[] plantName = new String[] {
-            "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
-    };
-    int[] plantImg = new int[]{
-        R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
-            R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
     };
     ArrayList<PlantListView> plantList = new ArrayList<>();
     ArrayList<PlantListView> plantList1 = new ArrayList<>();
@@ -101,10 +94,8 @@ public class SearchFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
         initElement(v);
-        initListView();
+//        initListView();
         getAllPlant();
-
-        System.out.println("size = " + plantList1.size() + " " + plantList.size() + " " + plantsList.size());
 
         textSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,6 +120,9 @@ public class SearchFragment extends Fragment {
                             if (plantList.get(j).getName().toLowerCase().contains(charSequence) ||
                                     plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
                                     plantList.get(j).getTreatments().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getName().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
+                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
                                     plantList.get(j).getName().contains(inpCapital) ||
                                     plantList.get(j).getSciName().contains(inpCapital) ||
                                     plantList.get(j).getTreatments().contains(inpCapital) ||
@@ -146,19 +140,30 @@ public class SearchFragment extends Fragment {
                         } else if(filter1 == "Symptoms" || filter1 == "Disease") {
                             if (plantList.get(j).getTreatments().toLowerCase().contains(charSequence) ||
                                     plantList.get(j).getTreatments().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
                                     plantList.get(j).getTreatments().contains(inpCapital) ||
                                     plantList.get(j).getTreatments().equalsIgnoreCase(charSequence.toString())) {
                                 plantList1.add(plantList.get(j));
                             }
                         } else {
                             if ((plantList.get(j).getName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getName().contains(charSequence) ||
-                                    plantList.get(j).getName().contains(inpCapital) ||
-                                    plantList.get(j).getName().equalsIgnoreCase(charSequence.toString()) ||
                                     plantList.get(j).getSciName().toLowerCase().contains(charSequence) ||
-                                    plantList.get(j).getSciName().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence) ||
+                                    plantList.get(j).getName().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
+                                    plantList.get(j).getSciName().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
+                                    plantList.get(j).getTreatments().toLowerCase().contains(charSequence.toString().toLowerCase()) ||
+                                    plantList.get(j).getName().contains(inpCapital) ||
                                     plantList.get(j).getSciName().contains(inpCapital) ||
-                                    plantList.get(j).getSciName().equalsIgnoreCase(charSequence.toString())) &&
+                                    plantList.get(j).getTreatments().contains(inpCapital) ||
+                                    plantList.get(j).getName().contains(charSequence) ||
+                                    plantList.get(j).getSciName().contains(charSequence) ||
+                                    plantList.get(j).getTreatments().contains(charSequence) ||
+                                    plantList.get(j).getName().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getSciName().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getTreatments().equalsIgnoreCase(charSequence.toString()) ||
+                                    plantList.get(j).getName().equalsIgnoreCase(inpCapital) ||
+                                    plantList.get(j).getSciName().equalsIgnoreCase(inpCapital) ||
+                                    plantList.get(j).getTreatments().equalsIgnoreCase(inpCapital)) &&
                                     plantList.get(j).getType().toLowerCase().contains(filter1.toLowerCase())) {
                                 plantList1.add(plantList.get(j));
                             }
@@ -194,6 +199,9 @@ public class SearchFragment extends Fragment {
                         if (plantList.get(j).getName().toLowerCase().contains(inp) ||
                                 plantList.get(j).getSciName().toLowerCase().contains(inp) ||
                                 plantList.get(j).getTreatments().toLowerCase().contains(inp) ||
+                                plantList.get(j).getName().toLowerCase().contains(inp.toLowerCase()) ||
+                                plantList.get(j).getSciName().toLowerCase().contains(inp.toLowerCase()) ||
+                                plantList.get(j).getTreatments().toLowerCase().contains(inp.toLowerCase()) ||
                                 plantList.get(j).getName().contains(inpCapital) ||
                                 plantList.get(j).getSciName().contains(inpCapital) ||
                                 plantList.get(j).getTreatments().contains(inpCapital) ||
@@ -211,19 +219,30 @@ public class SearchFragment extends Fragment {
                     } else if(filter1 == "Symptoms" || filter1 == "Disease") {
                         if (plantList.get(j).getTreatments().toLowerCase().contains(inp) ||
                                 plantList.get(j).getTreatments().contains(inp) ||
+                                plantList.get(j).getTreatments().toLowerCase().contains(inp.toLowerCase()) ||
                                 plantList.get(j).getTreatments().contains(inpCapital) ||
                                 plantList.get(j).getTreatments().equalsIgnoreCase(inp)) {
                             plantList1.add(plantList.get(j));
                         }
                     } else {
                         if ((plantList.get(j).getName().toLowerCase().contains(inp) ||
-                                plantList.get(j).getName().contains(inp) ||
-                                plantList.get(j).getName().contains(inpCapital) ||
-                                plantList.get(j).getName().equalsIgnoreCase(inp) ||
                                 plantList.get(j).getSciName().toLowerCase().contains(inp) ||
-                                plantList.get(j).getSciName().contains(inp) ||
+                                plantList.get(j).getTreatments().toLowerCase().contains(inp) ||
+                                plantList.get(j).getName().toLowerCase().contains(inp.toLowerCase()) ||
+                                plantList.get(j).getSciName().toLowerCase().contains(inp.toLowerCase()) ||
+                                plantList.get(j).getTreatments().toLowerCase().contains(inp.toLowerCase()) ||
+                                plantList.get(j).getName().contains(inpCapital) ||
                                 plantList.get(j).getSciName().contains(inpCapital) ||
-                                plantList.get(j).getSciName().equalsIgnoreCase(inp)) &&
+                                plantList.get(j).getTreatments().contains(inpCapital) ||
+                                plantList.get(j).getName().contains(inp) ||
+                                plantList.get(j).getSciName().contains(inp) ||
+                                plantList.get(j).getTreatments().contains(inp) ||
+                                plantList.get(j).getName().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getSciName().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getTreatments().equalsIgnoreCase(inp) ||
+                                plantList.get(j).getName().equalsIgnoreCase(inpCapital) ||
+                                plantList.get(j).getSciName().equalsIgnoreCase(inpCapital) ||
+                                plantList.get(j).getTreatments().equalsIgnoreCase(inpCapital)) &&
                                 plantList.get(j).getType().toLowerCase().contains(filter1.toLowerCase())) {
                             plantList1.add(plantList.get(j));
                         }
@@ -244,15 +263,9 @@ public class SearchFragment extends Fragment {
     private void initListView() {
         System.out.println("hello user eiei");
         System.out.println(user);
-        if (user.getStatus().equalsIgnoreCase("user")) {
-            adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, plantList);
-            searchPlant.setAdapter(adapter);
-            searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
-        } else if (user.getStatus().equalsIgnoreCase("admin")) {
-            adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, plantList);
-            searchPlant.setAdapter(adapter);
-            searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(plantList1.get(i).getIndex()));
-        }
+        adapter = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, plantList);
+        searchPlant.setAdapter(adapter);
+        searchPlant.setOnItemClickListener((adapterView, view, i, l) -> viewPlantDetail(i));
     }
 
     private void viewPlantDetail(int i) {
@@ -274,19 +287,7 @@ public class SearchFragment extends Fragment {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
-                            System.out.println(plant);
-                            int index = 0;
-                            for (int i = 0; i < plantName.length; i++) {
-                                if (plant.getName().toLowerCase().equals(plantName[i])) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            plantsList.add(plant);
-                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
-                            count++;
-                            plantList.add(plantListView);
-                            plantList1.add(plantListView);
+                            getVegetableImage(plant);
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -298,19 +299,7 @@ public class SearchFragment extends Fragment {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
-                            System.out.println(plant);
-                            int index = 0;
-                            for (int i = 0; i < plantName.length; i++) {
-                                if (plant.getName().toLowerCase().equals(plantName[i])) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            plantsList.add(plant);
-                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
-                            count++;
-                            plantList.add(plantListView);
-                            plantList1.add(plantListView);
+                            getFruitImage(plant);
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -322,24 +311,81 @@ public class SearchFragment extends Fragment {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
-                            System.out.println(plant);
-                            int index = 0;
-                            for (int i = 0; i < plantName.length; i++) {
-                                if (plant.getName().toLowerCase().equals(plantName[i])) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            plantsList.add(plant);
-                            PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
-                            count++;
-                            plantList.add(plantListView);
-                            plantList1.add(plantListView);
+                            getHerbImage(plant);
                         }
                     }
                 }).addOnFailureListener(e -> Toast
                         .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT)
                         .show());
+    }
+
+    private void getVegetableImage(Plant plant) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + plant.getOwner() + "/vegetables/" + plant.getName());
+        try {
+            final File localFile = File.createTempFile(plant.getName(), "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), bitmap, 0, plant.getTreatments());
+                        plantsList.add(plant);
+                        plantList.add(plantListView);
+                        plantList1.add(plantListView);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> {
+                        initListView();
+                    });
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void getFruitImage(Plant plant) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + plant.getOwner() + "/fruits/" + plant.getName());
+        try {
+            final File localFile = File.createTempFile(plant.getName(), "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), bitmap, 0, plant.getTreatments());
+                        plantsList.add(plant);
+                        plantList.add(plantListView);
+                        plantList1.add(plantListView);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> {
+                        initListView();
+                    });
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void getHerbImage(Plant plant) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + plant.getOwner() + "/herbs/" + plant.getName());
+        try {
+            final File localFile = File.createTempFile(plant.getName(), "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), bitmap, 0, plant.getTreatments());
+                        plantsList.add(plant);
+                        plantList.add(plantListView);
+                        plantList1.add(plantListView);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> {
+                        initListView();
+                    });
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private void initElement(View v) {
@@ -364,13 +410,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void setNewAdapter(ArrayList<PlantListView> pl) {
-        if (user.getStatus().equalsIgnoreCase("user")) {
-            PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
-            searchPlant.setAdapter(adapter1);
-        } else if (user.getStatus().equalsIgnoreCase("admin")) {
-            PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
-            searchPlant.setAdapter(adapter1);
-        }
+        PlantListAdapter adapter1 = new PlantListAdapter(getActivity(), R.layout.list_view_map_item, pl);
+        searchPlant.setAdapter(adapter1);
     }
 
     private void navigateToMain() {

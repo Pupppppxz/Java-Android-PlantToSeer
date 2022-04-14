@@ -444,6 +444,32 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ontology_filtered_linear_treatment"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Treatment : "
+                    android:textSize="17dp"
+                    android:fontFamily="@font/font_family"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/ontology_filtered_treatment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leaf"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/font_family" />
+
+            </LinearLayout>
+
             <ListView
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_all_border_linearlayout"

@@ -65,7 +65,6 @@ public class OntologyFragment extends Fragment {
         bulb.setOnClickListener(view -> {
             oVegetableType = "Bulb";
             oFruitType = "";
-            oHerbType = "";
 
             pod.setChecked(false);
             leaf.setChecked(false);
@@ -73,13 +72,12 @@ public class OntologyFragment extends Fragment {
             simpleFruit.setChecked(false);
             multipleFruit.setChecked(false);
             aggregateFruit.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         pod.setOnClickListener(view -> {
             oVegetableType = "Pod";
             oFruitType = "";
-            oHerbType = "";
 
             bulb.setChecked(false);
             leaf.setChecked(false);
@@ -87,13 +85,12 @@ public class OntologyFragment extends Fragment {
             simpleFruit.setChecked(false);
             multipleFruit.setChecked(false);
             aggregateFruit.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         leaf.setOnClickListener(view -> {
             oVegetableType = "Leaf";
             oFruitType = "";
-            oHerbType = "";
 
             pod.setChecked(false);
             bulb.setChecked(false);
@@ -101,13 +98,12 @@ public class OntologyFragment extends Fragment {
             simpleFruit.setChecked(false);
             multipleFruit.setChecked(false);
             aggregateFruit.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         flower.setOnClickListener(view -> {
             oVegetableType = "Flower";
             oFruitType = "";
-            oHerbType = "";
 
             pod.setChecked(false);
             leaf.setChecked(false);
@@ -115,13 +111,12 @@ public class OntologyFragment extends Fragment {
             simpleFruit.setChecked(false);
             multipleFruit.setChecked(false);
             aggregateFruit.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         simpleFruit.setOnClickListener(view -> {
             oVegetableType = "";
             oFruitType = "Simple Fruit";
-            oHerbType = "";
 
             pod.setChecked(false);
             leaf.setChecked(false);
@@ -129,13 +124,12 @@ public class OntologyFragment extends Fragment {
             bulb.setChecked(false);
             multipleFruit.setChecked(false);
             aggregateFruit.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         multipleFruit.setOnClickListener(view -> {
             oVegetableType = "";
             oFruitType = "Multiple Fruit";
-            oHerbType = "";
 
             pod.setChecked(false);
             leaf.setChecked(false);
@@ -143,13 +137,12 @@ public class OntologyFragment extends Fragment {
             simpleFruit.setChecked(false);
             bulb.setChecked(false);
             aggregateFruit.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         aggregateFruit.setOnClickListener(view -> {
             oVegetableType = "";
             oFruitType = "Aggregate Fruit";
-            oHerbType = "";
 
             pod.setChecked(false);
             leaf.setChecked(false);
@@ -157,21 +150,35 @@ public class OntologyFragment extends Fragment {
             simpleFruit.setChecked(false);
             multipleFruit.setChecked(false);
             bulb.setChecked(false);
-            treatment.setChecked(false);
+//            treatment.setChecked(false);
         });
 
         treatment.setOnClickListener(view -> {
-            oVegetableType = "";
-            oFruitType = "";
-            oHerbType = "Treatment";
+            try {
+                String[] typeArr = plantArg.getType().split(",");
+                if (typeArr.length == 1 &&
+                        (plantArg.getType().equalsIgnoreCase("FRUIT") ||
+                        plantArg.getType().equalsIgnoreCase("VEGETABLE"))) {
+                    treatment.setChecked(false);
+                    oHerbType = "";
+                }
+                if (treatment.isChecked()) {
+                    oHerbType = plantArg.getTreatments();
+                } else {
+                    oHerbType = "";
+                }
+                System.out.println("plant type length = " + typeArr.length);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
 
-            pod.setChecked(false);
-            leaf.setChecked(false);
-            flower.setChecked(false);
-            simpleFruit.setChecked(false);
-            multipleFruit.setChecked(false);
-            aggregateFruit.setChecked(false);
-            bulb.setChecked(false);
+//            pod.setChecked(false);
+//            leaf.setChecked(false);
+//            flower.setChecked(false);
+//            simpleFruit.setChecked(false);
+//            multipleFruit.setChecked(false);
+//            aggregateFruit.setChecked(false);
+//            bulb.setChecked(false);
         });
     }
 
@@ -318,7 +325,7 @@ public class OntologyFragment extends Fragment {
                 oBotanicalHabit = plantArg.getBotanicalHabit();
         }
 
-        if (plantArg.getType().equalsIgnoreCase("FRUIT")) {
+        if (plantArg.getType().split(",")[0].equalsIgnoreCase("FRUIT")) {
             switch (plantArg.getClassification()) {
                 case "Multiple Fruit":
                     multipleFruit.setChecked(true);
@@ -332,7 +339,7 @@ public class OntologyFragment extends Fragment {
                     simpleFruit.setChecked(true);
                     oFruitType = plantArg.getClassification();
             }
-        } else if (plantArg.getType().equalsIgnoreCase("VEGETABLE")) {
+        } else if (plantArg.getType().split(",")[0].equalsIgnoreCase("VEGETABLE")) {
             switch (plantArg.getClassification()) {
                 case "Bulb":
                     bulb.setChecked(true);

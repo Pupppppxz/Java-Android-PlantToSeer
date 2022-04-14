@@ -1,6 +1,7 @@
 package com.example.plant_app.search;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class PlantListAdapter1 extends ArrayAdapter<PlantListView> {
         String sciName = getItem(position).getSciName();
         String type = getItem(position).getType();
         String treatment = getItem(position).getTreatments();
-        int img = getItem(position).getImg();
+        Bitmap img = getItem(position).getBitmap();
         int index = getItem(position).getIndex();
 
         PlantListView plantListView = new PlantListView(name, sciName, type, img, index, treatment);
@@ -49,12 +50,9 @@ public class PlantListAdapter1 extends ArrayAdapter<PlantListView> {
 
         pNameView.setText(name);
         pSciNameView.setText(sciName);
-        pImageView.setImageResource(img);
+        pImageView.setImageBitmap(img);
 
         return convertView;
     }
 
-    public void onItemClick(AdapterView<?> arg0, View arg1, int position) {
-        System.out.println("Hello item click EiEi");
-    }
 }

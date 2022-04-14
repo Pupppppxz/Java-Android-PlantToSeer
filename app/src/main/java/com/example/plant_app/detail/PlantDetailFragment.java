@@ -1,6 +1,8 @@
 package com.example.plant_app.detail;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import com.example.plant_app.HomeActivity;
 import com.example.plant_app.MainActivity;
 import com.example.plant_app.R;
 import com.example.plant_app.edit_plant.EditPlantFragment;
+import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.firebase.Plant;
 import com.example.plant_app.firebase.PlantLiked;
 import com.example.plant_app.firebase.PlantListView;
@@ -35,12 +38,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +59,7 @@ public class PlantDetailFragment extends Fragment {
     private StorageReference storageReference, ref;
     private FirebaseFirestore db;
     private String userId;
+    private User user;
 
     Plant plantArg;
     private List<Plant> plantsList;
@@ -61,19 +67,10 @@ public class PlantDetailFragment extends Fragment {
     private TextView pName, pSciName, pFamily, pFamDescription, pHabit, pDescription, pSeason, pVitamin,
     pMineral, pTreatment, pHarvestTime, pPlanting, pSoil, pSoilPH, pSun, pWater, pTemp, pHumi, pFert;
     private ImageView favourite, pImage, arrowHarvest, arrowPlanting, arrowPlantCare;
-    private LinearLayout pLinearHarvest, pLinearPlanting, pLinearPlantCare, pLinearPlantCareAll;
+    private LinearLayout pLinearHarvest, pLinearPlanting, pLinearPlantCare, pLinearPlantCareAll, pLinearTreatment;
     private Button ontology, adminEdit, adminDelete;
     private boolean checkIsFavoritePlant = false;
 
-    String[] plantName = new String[] {
-            "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
-    };
-    int[] plantImg = new int[]{
-            R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
-            R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
-    };
     public PlantDetailFragment() {
         // Required empty public constructor
     }
@@ -95,6 +92,8 @@ public class PlantDetailFragment extends Fragment {
         initText(v);
 
         checkUserLiked();
+
+        getImage();
 
         pLinearHarvest.setOnClickListener(view -> setHarvestVisibility(v));
 
@@ -188,7 +187,7 @@ public class PlantDetailFragment extends Fragment {
             }
         }
 
-        DocumentReference db3 = FirebaseFirestore.getInstance().collection(plantArg.getType()).document(plantArg.getName());
+        DocumentReference db3 = FirebaseFirestore.getInstance().collection(plantArg.getType().split(",")[0]).document(plantArg.getName());
         db3.delete()
                 .addOnCompleteListener(task -> {
                     System.out.println("Remove complete");
@@ -257,13 +256,6 @@ public class PlantDetailFragment extends Fragment {
         pHumi.setText(plantArg.getHumidity());
         pFert.setText(plantArg.getFertilizer());
         pPlanting.setText(plantArg.getPlanting());
-
-        for (int i = 0; i < plantName.length; i++) {
-            if (plantName[i].equalsIgnoreCase(plantArg.getName())) {
-                pImage.setImageResource(plantImg[i]);
-                break;
-            }
-        }
     }
 
     private void initElement(View v) {
@@ -290,6 +282,7 @@ public class PlantDetailFragment extends Fragment {
         pLinearPlantCare = v.findViewById(R.id.plant_detail_linear_plant_care);
         pLinearPlanting = v.findViewById(R.id.plant_detail_linear_planting);
         pLinearPlantCareAll = v.findViewById(R.id.plant_detail_linear_plant_care_all);
+        pLinearTreatment = v.findViewById(R.id.plant_detail_linear_treatment);
 
         ontology = v.findViewById(R.id.plant_detail_button_ontology);
 
@@ -302,6 +295,9 @@ public class PlantDetailFragment extends Fragment {
         pHarvestTime.setVisibility(v.GONE);
         pPlanting.setVisibility(v.GONE);
         pLinearPlantCareAll.setVisibility(v.GONE);
+        if (plantArg.getTreatments().equalsIgnoreCase("")) {
+            pLinearTreatment.setVisibility(v.GONE);
+        }
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -316,6 +312,11 @@ public class PlantDetailFragment extends Fragment {
 
         adminEdit = v.findViewById(R.id.plant_detail_btn_admin_edit);
         adminDelete = v.findViewById(R.id.plant_detail_btn_admin_delete);
+
+        adminEdit.setVisibility(v.GONE);
+        adminDelete.setVisibility(v.GONE);
+
+        initUser(userId, v);
     }
 
     private void saveToFavorite() {
@@ -366,6 +367,48 @@ public class PlantDetailFragment extends Fragment {
                 .addOnFailureListener(e -> {
                     Toast
                         .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void getImage() {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + plantArg.getOwner() + "/" + plantArg.getType().split(",")[0].toLowerCase() + "s/" + plantArg.getName());
+        System.out.println("plant type = " + plantArg.getType().split(",")[0]);
+        try {
+            final File localFile = File.createTempFile(plantArg.getName(), "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        pImage.setImageBitmap(bitmap);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void initUser(String id, View v) {
+        DocumentReference db = FirebaseFirestore.getInstance().collection("User").document(id);
+        db.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null) {
+                            user = document.toObject(User.class);
+                            if (user.getStatus().equalsIgnoreCase("admin") || user.getUserId().equalsIgnoreCase(plantArg.getOwner())) {
+                                adminEdit.setVisibility(v.VISIBLE);
+                                adminDelete.setVisibility(v.VISIBLE);
+                            } else {
+                                adminEdit.setVisibility(v.GONE);
+                                adminDelete.setVisibility(v.GONE);
+                            }
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
                 });
     }
 

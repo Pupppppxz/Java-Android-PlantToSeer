@@ -92,14 +92,18 @@ public class RegisterActivity extends AppCompatActivity {
         String firstName = inputFirstName.getText().toString();
         String lastName = inputLastName.getText().toString();
 
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}";
+
         if (firstName.isEmpty()) {
             inputFirstName.setError("Enter Name Field");
         } else if (lastName.isEmpty()) {
             inputLastName.setError("Enter Lastname Field");
         } else if (!email.matches(this.emailPattern)) {
             inputEmail.setError("Enter Connect Email");
-        } else if (password.isEmpty() || password.length() < 6) {
-            inputPassword.setError("Enter Proper Password");
+        } else if (password.isEmpty()) {
+            inputPassword.setError("Enter Password Field");
+        } else if (!password.matches(pattern)) {
+            inputPassword.setError("Password must have number, uppercase letter and lower case letter");
         } else if (!password.equals(confirmPassword)) {
             inputPasswordRecheck.setError("Password Not Match");
         } else {

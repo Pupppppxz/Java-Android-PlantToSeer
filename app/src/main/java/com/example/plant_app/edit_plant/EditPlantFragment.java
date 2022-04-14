@@ -163,14 +163,14 @@ public class EditPlantFragment extends Fragment {
             }
         }
 
-        if (plant.getType().equalsIgnoreCase("FRUIT")) {
+        if (plant.getType().split(",")[0].equalsIgnoreCase("FRUIT")) {
             for (int i = 0; i < items2.length; i++) {
                 if (plant.getClassification().equalsIgnoreCase(items2[i])) {
                     fruit.setSelection(i);
                     break;
                 }
             }
-        } else if (plant.getType().equalsIgnoreCase("VEGETABLE")) {
+        } else if (plant.getType().split(",")[0].equalsIgnoreCase("VEGETABLE")) {
             for (int i = 0; i < items3.length; i++) {
                 if (plant.getClassification().equalsIgnoreCase(items3[i])) {
                     fruit.setSelection(i);
@@ -222,7 +222,7 @@ public class EditPlantFragment extends Fragment {
         if (plant.getType().equalsIgnoreCase("HERB")) {
             classi.setVisibility(v.GONE);
             fruit.setVisibility(v.GONE);
-        } else if (plant.getType().equalsIgnoreCase("FRUIT")) {
+        } else if (plant.getType().split(",")[0].equalsIgnoreCase("FRUIT")) {
             fruit.setDropDownVerticalOffset(100);
             InitSpinner.setInitSpinner(items2, fruit, getActivity());
         } else {
@@ -256,7 +256,7 @@ public class EditPlantFragment extends Fragment {
         String eName = name.getText().toString();
         for (int i = 0; i < allUser.size(); i++) {
             String id = allUser.get(i).getUserId();
-            db.collection("LIKE$$" + userId).document(plant.getName()).get()
+            db.collection("LIKE$$" + id).document(plant.getName()).get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             DocumentSnapshot doc = task.getResult();
@@ -331,6 +331,25 @@ public class EditPlantFragment extends Fragment {
         String eHumidity = humidity.getText().toString();
         String eFertilizer = fertilizer.getText().toString();
 
+        String eType = plant.getType();
+
+        if (plant.getType().equalsIgnoreCase("VEGETABLE")) {
+            if (!eTreatment.equalsIgnoreCase("")) {
+                eType += ",HERB";
+            }
+        } else if (plant.getType().equalsIgnoreCase("FRUIT")) {
+            if (!eTreatment.equalsIgnoreCase("")) {
+                eType += ",HERB";
+            }
+        } else if (plant.getType().equalsIgnoreCase("VEGETABLE,HERB") ||
+                plant.getType().equalsIgnoreCase("FRUIT,HERB")) {
+            if (eTreatment.equalsIgnoreCase("")) {
+                eType  = plant.getType().split(",")[0];
+            }
+        }
+
+        final String eeType = eType;
+
         if (eName.isEmpty()) {
             name.setError("Enter name field");
         } else if (eSciName.isEmpty()) {
@@ -349,8 +368,6 @@ public class EditPlantFragment extends Fragment {
             mineral.setError("Enter mineral");
         } else if (eHarvestTime.isEmpty()) {
             harvestTime.setError("Enter harvest time");
-        } else if (eTreatment.isEmpty()) {
-            treatments.setError("Enter treatments");
         } else if (ePlanting.isEmpty()) {
             planting.setError("Enter planting");
         } else if (eSoil.isEmpty()) {
@@ -384,14 +401,14 @@ public class EditPlantFragment extends Fragment {
                 progressDialog.show();
 
                 StorageReference ref = storageReference
-                        .child(FirebaseLocal.storagePathForImageUpload + userId + plant.getType() + plant.getName());
+                        .child(FirebaseLocal.storagePathForImageUpload + "/" + plant.getOwner() + "/" + plant.getType().split(",")[0].toLowerCase() + "s/" + eName);
 
                 ref.putFile(filePath)
                         .addOnSuccessListener(taskSnapshot -> {
                             progressDialog.dismiss();
                             saveUpdate(eName, eSciName, eFamily, eFamDesc, eBotanical, eDesc,
                                     eSeason, eVitamin, eMineral, eHarvestTime, eTreatment, eClass, ePlanting,
-                                    eSoil, eSoilPh, eSun, eWater, eTemp, eHumidity, eFertilizer);
+                                    eSoil, eSoilPh, eSun, eWater, eTemp, eHumidity, eFertilizer, eeType);
                             Toast
                                     .makeText(getActivity(), "Image uploaded", Toast.LENGTH_SHORT)
                                     .show();
@@ -415,7 +432,7 @@ public class EditPlantFragment extends Fragment {
         }
     }
 
-    private void saveUpdate(String eName, String eSciName, String eFamily, String eFamDesc, String eBotanical, String eDesc, String eSeason, String eVitamin, String eMineral, String eHarvestTime, String eTreatment, String eClass, String ePlanting, String eSoil, String eSoilPh, String eSun, String eWater, String eTemp, String eHumidity, String eFertilizer) {
+    private void saveUpdate(String eName, String eSciName, String eFamily, String eFamDesc, String eBotanical, String eDesc, String eSeason, String eVitamin, String eMineral, String eHarvestTime, String eTreatment, String eClass, String ePlanting, String eSoil, String eSoilPh, String eSun, String eWater, String eTemp, String eHumidity, String eFertilizer, String eType) {
 
         Map<String, Object> fruit = new HashMap<>();
         fruit.put(KeyInsert.KEY_NAME, eName);
@@ -437,7 +454,7 @@ public class EditPlantFragment extends Fragment {
         fruit.put(KeyInsert.KEY_TEMPERATURE, eTemp);
         fruit.put(KeyInsert.KEY_HUMIDITY, eHumidity);
         fruit.put(KeyInsert.KEY_FERTILIZER, eFertilizer);
-        fruit.put(KeyInsert.TYPE, plant.getType());
+        fruit.put(KeyInsert.TYPE, eType);
         fruit.put(KeyInsert.OWNER, plant.getOwner());
 
         if (plant.getName().equalsIgnoreCase(eName)) {
@@ -450,7 +467,7 @@ public class EditPlantFragment extends Fragment {
                             Log.d(TAG, e.toString());
                         });
 
-                db.collection(plant.getType()).document(eName)
+                db.collection(plant.getType().split(",")[0]).document(eName)
                         .update(fruit)
                         .addOnSuccessListener(unused -> {
                             Toast.makeText(getActivity(), "update successfully", Toast.LENGTH_SHORT).show();
@@ -473,7 +490,7 @@ public class EditPlantFragment extends Fragment {
                             Log.d(TAG, e.toString());
                         });
 
-                db.collection(plant.getType()).document(eName)
+                db.collection(plant.getType().split(",")[0]).document(eName)
                         .update(fruit)
                         .addOnSuccessListener(unused -> {
                             Toast.makeText(getActivity(), "update successfully", Toast.LENGTH_SHORT).show();
@@ -489,7 +506,7 @@ public class EditPlantFragment extends Fragment {
             }
         } else {
             if (plant.getType().equalsIgnoreCase("HERB")) {
-                db.collection(plant.getType()).document(eName)
+                db.collection(plant.getType().split(",")[0]).document(eName)
                         .set(fruit)
                         .addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Update successfully", Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e -> {
@@ -516,7 +533,7 @@ public class EditPlantFragment extends Fragment {
                             }
                         });
 
-                db.collection(plant.getType()).document(plant.getName())
+                db.collection(plant.getType().split(",")[0]).document(plant.getName())
                         .delete()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
@@ -527,7 +544,7 @@ public class EditPlantFragment extends Fragment {
                         });
             } else {
                 fruit.put(KeyInsert.KEY_TYPE, eClass);
-                db.collection(plant.getType()).document(eName)
+                db.collection(plant.getType().split(",")[0]).document(eName)
                         .set(fruit)
                         .addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Update successfully", Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e -> {
@@ -554,7 +571,7 @@ public class EditPlantFragment extends Fragment {
                             }
                         });
 
-                db.collection(plant.getType()).document(plant.getName())
+                db.collection(plant.getType().split(",")[0]).document(plant.getName())
                         .delete()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

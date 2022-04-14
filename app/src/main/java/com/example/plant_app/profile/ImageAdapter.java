@@ -36,7 +36,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PlantListView plant = plantListsss.get(position);
-        holder.img.setImageResource(plant.getImg());
+        holder.img.setImageBitmap(plant.getBitmap());
     }
 
     @Override

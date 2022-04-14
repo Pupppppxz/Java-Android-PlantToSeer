@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -176,8 +177,6 @@ public class InsertVegetableFragment extends Fragment {
             mineral.setError("Enter mineral");
         } else if (inputHarvestTime.isEmpty()) {
             harvestTime.setError("Enter harvest time");
-        } else if (inputTreatments.isEmpty()) {
-            treatments.setError("Enter treatments");
         } else if (inputPlanting.isEmpty()) {
             planting.setError("Enter planting");
         } else if (inputSoil.isEmpty()) {
@@ -204,54 +203,67 @@ public class InsertVegetableFragment extends Fragment {
                     .show();
         } else {
 
-            if (filePath != null) {
-                progressDialog.setMessage("Please Wait While Insert vegetable..");
-                progressDialog.setTitle("Insert Vegetable");
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.show();
+            db.collection("HERB").document(inputName).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot doc = task.getResult();
+                            if (!doc.exists()) {
+                                if (filePath != null) {
+                                    progressDialog.setMessage("Please Wait While Insert vegetable..");
+                                    progressDialog.setTitle("Insert Vegetable");
+                                    progressDialog.setCanceledOnTouchOutside(false);
+                                    progressDialog.show();
 
-                StorageReference ref = storageReference
-                        .child(FirebaseLocal.storagePathForImageUpload + userId + "/vegetables/" + inputName);
+                                    StorageReference ref = storageReference
+                                            .child(FirebaseLocal.storagePathForImageUpload + userId + "/vegetables/" + inputName);
 
-                ref.putFile(filePath)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                progressDialog.dismiss();
-                                saveNewVegetable(inputName, inputScienceName, inputFamilies, inputFamilyDescription, spinnerBotanical, inputDescription,
-                                        inputSeason, inputVitamin, inputMineral, inputHarvestTime, inputTreatments, spinnerVegetable, inputPlanting,
-                                        inputSoil, inputSoilPH, inputSunExposure, inputWater, inputTemperature, inputHumidity, inputFertilizer);
+                                    ref.putFile(filePath)
+                                            .addOnSuccessListener(taskSnapshot -> {
+                                                progressDialog.dismiss();
+                                                saveNewVegetable(inputName, inputScienceName, inputFamilies, inputFamilyDescription, spinnerBotanical, inputDescription,
+                                                        inputSeason, inputVitamin, inputMineral, inputHarvestTime, inputTreatments, spinnerVegetable, inputPlanting,
+                                                        inputSoil, inputSoilPH, inputSunExposure, inputWater, inputTemperature, inputHumidity, inputFertilizer);
+                                                Toast
+                                                        .makeText(getActivity(), "Image uploaded", Toast.LENGTH_SHORT)
+                                                        .show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                progressDialog.dismiss();
+                                                Toast
+                                                        .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
+                                                        .show();
+                                            })
+                                            .addOnProgressListener(taskSnapshot -> {
+                                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                                progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                                            })
+                                            .addOnCompleteListener(tasks -> sendUserToHome());
+                                } else {
+                                    Toast
+                                            .makeText(getActivity(), "Please select image", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            } else {
                                 Toast
-                                        .makeText(getActivity(), "Image uploaded", Toast.LENGTH_SHORT)
-                                        .show();
-                                sendUserToHome();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
-                                Toast
-                                        .makeText(getActivity(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT)
+                                        .makeText(getActivity(), "Plant name already exist", Toast.LENGTH_SHORT)
                                         .show();
                             }
-                        })
-                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                                progressDialog.setMessage("Uploaded " + (int)progress + "%");
-                            }
-                        });
-            } else {
-                System.out.println("file path = null");
-            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast
+                                .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT).show();
+                    });
         }
     }
 
     private void saveNewVegetable(String sname, String ssciName, String sfamily, String sfamilyDesc, String sbotanical, String sdescription, String sseason,
                                   String svitamin, String smineral, String sharvest_time, String streatments, String svegetable_type, String splanting,
                                   String ssoil, String ssoilPH, String ssunExposure, String swater, String stemp, String shumidity, String sfertilizer) {
+        String t = "VEGETABLE";
+        if (!streatments.equals("")) {
+            t += ",HERB";
+        }
         Map<String, Object> vegetable = new HashMap<>();
         vegetable.put(KeyInsert.KEY_NAME, sname);
         vegetable.put(KeyInsert.KEY_SCIENCE_NAME, ssciName);
@@ -273,37 +285,21 @@ public class InsertVegetableFragment extends Fragment {
         vegetable.put(KeyInsert.KEY_TEMPERATURE, stemp);
         vegetable.put(KeyInsert.KEY_HUMIDITY, shumidity);
         vegetable.put(KeyInsert.KEY_FERTILIZER, sfertilizer);
-        vegetable.put(KeyInsert.TYPE, "VEGETABLE");
+        vegetable.put(KeyInsert.TYPE, t);
         vegetable.put(KeyInsert.OWNER, userId);
 
         db.collection(userId).document(sname).set(vegetable)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getActivity(), "Insert vegetable successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
+                .addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Insert vegetable successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
                 });
 
         db.collection("VEGETABLE").document(sname).set(vegetable)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getActivity(), "Insert vegetable successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
+                .addOnSuccessListener(unused -> Toast.makeText(getActivity(), "Insert vegetable successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, e.toString());
                 });
     }
 

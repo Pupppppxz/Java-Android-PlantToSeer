@@ -3,6 +3,7 @@ package com.example.plant_app.search;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
 
     private Context mContext;
     int mResource;
-    Button btnDelete;
 
     public PlantListAdapter(Context context, int resource, ArrayList<PlantListView> objects) {
         super(context, resource, objects);
@@ -50,7 +50,7 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
         String sciName = getItem(position).getSciName();
         String type = getItem(position).getType();
         String treatment = getItem(position).getTreatments();
-        int img = getItem(position).getImg();
+        Bitmap img = getItem(position).getBitmap();
         int index = getItem(position).getIndex();
 
         PlantListView plantListView = new PlantListView(name, sciName, type, img, index, treatment);
@@ -58,14 +58,13 @@ public class PlantListAdapter extends ArrayAdapter<PlantListView> {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
-
         ImageView pImageView = convertView.findViewById(R.id.plant_list_view_image);
         TextView pNameView = convertView.findViewById(R.id.plant_list_view_1);
         TextView pSciNameView = convertView.findViewById(R.id.plant_list_view_2);
 
         pNameView.setText(name);
         pSciNameView.setText(sciName);
-        pImageView.setImageResource(img);
+        pImageView.setImageBitmap(img);
 
         return convertView;
     }

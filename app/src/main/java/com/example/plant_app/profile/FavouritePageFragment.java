@@ -70,15 +70,6 @@ public class FavouritePageFragment extends Fragment {
     private StorageReference storageReference, ref;
     private FirebaseFirestore db;
 
-    String[] plantName = new String[] {
-            "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
-    };
-    int[] plantImg = new int[]{
-            R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
-            R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
-    };
     List<PlantListView> profileVegetables = new ArrayList<>();
     List<PlantListView> profileFruits = new ArrayList<>();
     List<PlantListView> profileHerbs = new ArrayList<>();
@@ -193,29 +184,14 @@ public class FavouritePageFragment extends Fragment {
                         int count = 0;
                         for (QueryDocumentSnapshot plants : queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
-                            int index = 0;
                             for (int i = 0; i < plantLikeds.size(); i++) {
                                 if (plantLikeds.get(i).getName().equalsIgnoreCase(plant.getName())) {
-                                    for (int j = 0; j < plantName.length; j++) {
-                                        if (plant.getName().toLowerCase().equals(plantName[j])) {
-                                            index = j;
-                                            break;
-                                        }
-                                    }
-                                    PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
-                                    pHerb.add(plantListView);
+                                    getHerbImage(plant.getName(), plant.getScienceName(), plant.getType(), plant.getTreatments(), v, count, plant.getOwner());
                                     break;
                                 }
                             }
                             count++;
                             plantsList.add(plant);
-                        }
-                        System.out.println("size 3 array list favorite = " + pHerb.size());
-                        if (pHerb.size() > 0) {
-                            this.profileHerbs = new ArrayList<>(pHerb);
-                            initHerbAdapter(v);
-                        } else {
-                            herbRecycle.setVisibility(v.GONE);
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -227,33 +203,17 @@ public class FavouritePageFragment extends Fragment {
         db.collection("VEGETABLE").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
-                        List<PlantListView> pVege = new ArrayList<>();
                         int count = 0;
                         for (QueryDocumentSnapshot plants : queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
-                            int index = 0;
                             for (int i = 0; i < plantLikeds.size(); i++) {
                                 if (plantLikeds.get(i).getName().equalsIgnoreCase(plant.getName())) {
-                                    for (int j = 0; j < plantName.length; j++) {
-                                        if (plant.getName().toLowerCase().equals(plantName[j])) {
-                                            index = j;
-                                            break;
-                                        }
-                                    }
-                                    PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
-                                    pVege.add(plantListView);
+                                    getVegetableImage(plant.getName(), plant.getScienceName(), plant.getType(), plant.getTreatments(), v, count, plant.getOwner());
                                     break;
                                 }
                             }
                             count++;
                             plantsList.add(plant);
-                        }
-                        System.out.println("size 3 array list favorite = " + pVege.size());
-                        if (pVege.size() > 0) {
-                            this.profileVegetables = new ArrayList<>(pVege);
-                            initVegetableAdapter(v);
-                        } else {
-                            vegetableRecycle.setVisibility(v.GONE);
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -266,37 +226,80 @@ public class FavouritePageFragment extends Fragment {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         int count = 0;
-                        List<PlantListView> pFruit = new ArrayList<>();
                         for (QueryDocumentSnapshot plants : queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
-                            int index = 0;
                             for (int i = 0; i < plantLikeds.size(); i++) {
                                 if (plantLikeds.get(i).getName().equalsIgnoreCase(plant.getName())) {
-                                    for (int j = 0; j < plantName.length; j++) {
-                                        if (plant.getName().toLowerCase().equals(plantName[j])) {
-                                            index = j;
-                                            break;
-                                        }
-                                    }
-                                    PlantListView plantListView = new PlantListView(plant.getName(), plant.getScienceName(), plant.getType(), plantImg[index], count, plant.getTreatments());
-                                    pFruit.add(plantListView);
+                                    getFruitImage(plant.getName(), plant.getScienceName(), plant.getType(), plant.getTreatments(), v, count, plant.getOwner());
                                     break;
                                 }
                             }
                             count++;
                             plantsList.add(plant);
                         }
-                        System.out.println("size 3 array list favorite = " + pFruit.size());
-                        if (pFruit.size() > 0) {
-                            this.profileFruits = new ArrayList<>(pFruit);
-                            initFruitAdapter(v);
-                        } else {
-                            fruitRecycle.setVisibility(v.GONE);
-                        }
                     }
                 }).addOnFailureListener(e -> Toast
                 .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT)
                 .show());
+    }
+
+    private void getVegetableImage(String plantName, String sciName, String type, String treatment, View v, int count, String owner) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + owner + "/vegetables/" + plantName);
+        try {
+            final File localFile = File.createTempFile(plantName, "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plantName, sciName, type, bitmap, count, treatment);
+                        profileVegetables.add(plantListView);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> {
+                        initVegetableAdapter(v);
+                    });
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void getFruitImage(String plantName, String sciName, String type, String treatment, View v, int count, String owner) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + owner + "/fruits/" + plantName);
+        try {
+            final File localFile = File.createTempFile(plantName, "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plantName, sciName, type, bitmap, count, treatment);
+                        profileFruits.add(plantListView);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> initFruitAdapter(v));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void getHerbImage(String plantName, String sciName, String type, String treatment, View v, int count, String owner) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + owner + "/herbs/" + plantName);
+        try {
+            final File localFile = File.createTempFile(plantName, "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plantName, sciName, type, bitmap, count, treatment);
+                        profileHerbs.add(plantListView);
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> initHerbAdapter(v));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private void viewPlantDetail(String name) {

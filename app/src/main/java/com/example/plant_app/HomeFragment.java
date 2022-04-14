@@ -10,6 +10,9 @@ import androidx.collection.ArraySet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Html;
 import android.util.Log;
@@ -23,12 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.plant_app.detail.PlantDetailFragment;
+import com.example.plant_app.detail.RecyclerItemClickListener;
 import com.example.plant_app.firebase.FirebaseLocal;
 import com.example.plant_app.firebase.Plant;
 import com.example.plant_app.firebase.PlantListView;
 import com.example.plant_app.firebase.User;
 import com.example.plant_app.profile.EditProfileFragment;
 import com.example.plant_app.profile.FavouritePageFragment;
+import com.example.plant_app.profile.ImageAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +51,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -54,29 +60,24 @@ public class HomeFragment extends Fragment {
     private TextView helloUser;
     private ImageView iconList, vege1, vege2, vege3, fr1, fr2, fr3, he1, he2, he3, profilePicture;
 
+    private RecyclerView vegetableRecycle;
+    private RecyclerView fruitRecycle;
+    private RecyclerView herbRecycle;
+    ImageAdapter vegetableAdapter;
+    ImageAdapter fruitAdapter;
+    ImageAdapter herbAdapter;
+    LinearLayoutManager mLayoutManager, mLayoutManager1, mLayoutManager2;
+
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
-    private StorageReference storageReference;
+    private StorageReference storageReference, ref;
     private FirebaseFirestore db;
 
     private User user;
-
-    String[] plantName = new String[] {
-            "unknown", "carrot","coriander","cabbage","lettuce","broccoli","madras thorn","bilimbi","santol","pomegranate","salak","pineapple"
-            ,"holy basil","roselle","galanga","gotu kola","tamarind","java tea","aloe","andrographis", "amla"
-    };
-    int[] plantImg = new int[]{
-            R.drawable.logo, R.drawable.carrot, R.drawable.coriander, R.drawable.cabbage, R.drawable.lettuce, R.drawable.brocoli, R.drawable.madras_thorn, R.drawable.bilimbi,
-            R.drawable.santol, R.drawable.pomegranate, R.drawable.salak, R.drawable.pineapple, R.drawable.holy_basil, R.drawable.roselle, R.drawable.galanga,
-            R.drawable.gotu_kola, R.drawable.tamarind, R.drawable.java_tea, R.drawable.aloe, R.drawable.andrographis, R.drawable.amla
-    };
-    private ArrayList<Plant> homeVegetables = new ArrayList<>();
-    private ArrayList<Plant> homeFruits = new ArrayList<>();
-    private ArrayList<Plant> homeHerbs = new ArrayList<>();
-    int[] vegetableImageIdx = new int[3];
-    int[] fruitImageIdx = new int[3];
-    int[] herbImageIdx = new int[3];
+    List<PlantListView> homeVegetables = new ArrayList<>();
+    List<PlantListView> homeFruits = new ArrayList<>();
+    List<PlantListView> homeHerbs = new ArrayList<>();
     private ArrayList<Plant> plantsList = new ArrayList<>();
 
     public HomeFragment() {
@@ -95,10 +96,7 @@ public class HomeFragment extends Fragment {
 
         initElement(v);
         initUser(userId);
-        getVegetable(v);
-        getFruit(v);
-        getHerb(v);
-        getAllPlants();
+        getAllPlants(v);
 
         iconList.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(getActivity(), view);
@@ -161,25 +159,30 @@ public class HomeFragment extends Fragment {
             System.out.println(e);
         }
 
-        vege1 = v.findViewById(R.id.home_vegetable1);
-        vege2 = v.findViewById(R.id.home_vegetable2);
-        vege3 = v.findViewById(R.id.home_vegetable3);
-        fr1 = v.findViewById(R.id.home_fruit1);
-        fr2 = v.findViewById(R.id.home_fruit2);
-        fr3 = v.findViewById(R.id.home_fruit3);
-        he1 = v.findViewById(R.id.home_herb1);
-        he2 = v.findViewById(R.id.home_herb2);
-        he3 = v.findViewById(R.id.home_herb3);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        vegetableRecycle = v.findViewById(R.id.home_vegetable_recycle);
+
+        mLayoutManager1 = new LinearLayoutManager(getActivity());
+        mLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        fruitRecycle = v.findViewById(R.id.home_fruit_recycle);
+
+        mLayoutManager2 = new LinearLayoutManager(getActivity());
+        mLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        herbRecycle = v.findViewById(R.id.home_herb_recycle);
 
     }
 
-    private void getAllPlants() {
+    private void getAllPlants(View v) {
         db.collection("VEGETABLE").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
                             plantsList.add(plant);
+                            if (homeVegetables.size() <= 3) {
+                                getVegetableImage(plant.getName(), plant.getScienceName(), plant.getType(), plant.getTreatments(), v, plant.getOwner());
+                            }
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -192,6 +195,9 @@ public class HomeFragment extends Fragment {
                         for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
                             plantsList.add(plant);
+                            if (homeFruits.size() <= 3) {
+                                getFruitImage(plant.getName(), plant.getScienceName(), plant.getType(), plant.getTreatments(), v, plant.getOwner());
+                            }
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -204,6 +210,9 @@ public class HomeFragment extends Fragment {
                         for (QueryDocumentSnapshot plants: queryDocumentSnapshots) {
                             Plant plant = plants.toObject(Plant.class);
                             plantsList.add(plant);
+                            if (homeHerbs.size() <= 3) {
+                                getHerbImage(plant.getName(), plant.getScienceName(), plant.getType(), plant.getTreatments(), v, plant.getOwner());
+                            }
                         }
                     }
                 }).addOnFailureListener(e -> Toast
@@ -211,154 +220,144 @@ public class HomeFragment extends Fragment {
                 .show());
     }
 
-    private void getVegetable(View v) {
-
-        db.collection("VEGETABLE").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        int count = 0;
-                        for (QueryDocumentSnapshot plants : queryDocumentSnapshots) {
-                            Plant plant = plants.toObject(Plant.class);
-                            System.out.println(plant);
-                            int index = 0;
-                            for (int i = 0; i < plantName.length; i++) {
-                                if (plant.getName().toLowerCase().equals(plantName[i])) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            homeVegetables.add(plant);
-                            if (count == 0) {
-                                if (homeVegetables.size() >= 1) {
-                                    vege1.setImageResource(plantImg[index]);
-                                    vege1.setOnClickListener(view -> toPlantDetail(homeVegetables.get(0)));
-                                } else {
-                                    vege1.setVisibility(v.GONE);
-                                }
-                            } else if (count == 1) {
-                                if (homeVegetables.size() >= 2) {
-                                    vege2.setImageResource(plantImg[index]);
-                                    vege2.setOnClickListener(view -> toPlantDetail(homeVegetables.get(1)));
-                                } else {
-                                    vege2.setVisibility(v.GONE);
-                                }
-                            } else if (count == 2) {
-                                if (homeVegetables.size() >= 3) {
-                                    vege3.setImageResource(plantImg[index]);
-                                    vege3.setOnClickListener(view -> toPlantDetail(homeVegetables.get(2)));
-                                } else {
-                                    vege3.setVisibility(v.GONE);
-                                }
-                            }
-                            if (count >= 3) {
-                                break;
-                            }
-                            count++;
+    private void getVegetableImage(String plantName, String sciName, String type, String treatment, View v, String id) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + id + "/vegetables/" + plantName);
+        try {
+            final File localFile = File.createTempFile(plantName, "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plantName, sciName, type, bitmap, 0, treatment);
+                        if (homeVegetables.size() <= 3) {
+                            homeVegetables.add(plantListView);
                         }
-                    }
-                }).addOnFailureListener(e -> Toast
-                        .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT)
-                        .show());
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> {
+                        initVegetableAdapter(v);
+                    });
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
-    private void getFruit(View v) {
-
-        db.collection("FRUIT").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        int count = 0;
-                        for (QueryDocumentSnapshot plants : queryDocumentSnapshots) {
-                            Plant plant = plants.toObject(Plant.class);
-                            System.out.println(plant);
-                            int index = 0;
-                            for (int i = 0; i < plantName.length; i++) {
-                                if (plant.getName().toLowerCase().equals(plantName[i])) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            homeFruits.add(plant);
-                            if (count == 0) {
-                                if (homeFruits.size() >= 1) {
-                                    fr1.setImageResource(plantImg[index]);
-                                    fr1.setOnClickListener(view -> toPlantDetail(homeFruits.get(0)));
-                                } else {
-                                    fr1.setVisibility(v.GONE);
-                                }
-                            } else if (count == 1) {
-                                if (homeFruits.size() >= 2) {
-                                    fr2.setImageResource(plantImg[index]);
-                                    fr2.setOnClickListener(view -> toPlantDetail(homeFruits.get(1)));
-                                } else {
-                                    fr2.setVisibility(v.GONE);
-                                }
-                            } else if (count == 2) {
-                                if (homeFruits.size() >= 3) {
-                                    fr3.setImageResource(plantImg[index]);
-                                    fr3.setOnClickListener(view -> toPlantDetail(homeFruits.get(2)));
-                                } else {
-                                    fr3.setVisibility(v.GONE);
-                                }
-                            }
-                            if (count >= 3) {
-                                break;
-                            }
-                            count++;
+    private void getFruitImage(String plantName, String sciName, String type, String treatment, View v, String id) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + id + "/fruits/" + plantName);
+        try {
+            final File localFile = File.createTempFile(plantName, "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plantName, sciName, type, bitmap, 0, treatment);
+                        if (homeFruits.size() <= 3) {
+                            homeFruits.add(plantListView);
                         }
-                    }
-                }).addOnFailureListener(e -> Toast
-                        .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT)
-                        .show());
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> initFruitAdapter(v));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
-    private void getHerb(View v) {
-
-        db.collection("HERB").get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        int count = 0;
-                        for (QueryDocumentSnapshot plants : queryDocumentSnapshots) {
-                            Plant plant = plants.toObject(Plant.class);
-                            System.out.println(plant);
-                            int index = 0;
-                            for (int i = 0; i < plantName.length; i++) {
-                                if (plant.getName().toLowerCase().equals(plantName[i])) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            homeHerbs.add(plant);
-                            if (count == 0) {
-                                if (homeHerbs.size() >= 1) {
-                                    he1.setImageResource(plantImg[index]);
-                                    he1.setOnClickListener(view -> toPlantDetail(homeHerbs.get(0)));
-                                } else {
-                                    he1.setVisibility(v.GONE);
-                                }
-                            } else if (count == 1) {
-                                if (homeHerbs.size() >= 2) {
-                                    he2.setImageResource(plantImg[index]);
-                                    he2.setOnClickListener(view -> toPlantDetail(homeHerbs.get(1)));
-                                } else {
-                                    he2.setVisibility(v.GONE);
-                                }
-                            } else if (count == 2) {
-                                if (homeHerbs.size() >= 3) {
-                                    he3.setImageResource(plantImg[index]);
-                                    he3.setOnClickListener(view -> toPlantDetail(homeHerbs.get(2)));
-                                } else {
-                                    he3.setVisibility(v.GONE);
-                                }
-                            }
-                            if (count >= 3) {
-                                break;
-                            }
-                            count++;
+    private void getHerbImage(String plantName, String sciName, String type, String treatment, View v, String id) {
+        ref = storage.getReference()
+                .child(FirebaseLocal.storagePathForImageUpload + id + "/herbs/" + plantName);
+        try {
+            final File localFile = File.createTempFile(plantName, "jpg");
+            ref.getFile(localFile)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        System.out.println("downloaded image");
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        PlantListView plantListView = new PlantListView(plantName, sciName, type, bitmap, 0, treatment);
+                        if (homeHerbs.size() <= 3) {
+                            homeHerbs.add(plantListView);
                         }
+                    })
+                    .addOnFailureListener(e -> System.out.println(e))
+                    .addOnCompleteListener(task -> initHerbAdapter(v));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void initFruitAdapter(View v) {
+        try {
+            if (homeFruits.size() > 0) {
+
+                fruitAdapter = new ImageAdapter(homeFruits);
+                fruitRecycle.setLayoutManager(mLayoutManager1);
+                fruitRecycle.setItemAnimator(new DefaultItemAnimator());
+                fruitRecycle.setAdapter(fruitAdapter);
+                fruitRecycle.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), fruitRecycle, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        viewPlantDetail(homeFruits.get(position).getName());
                     }
-                }).addOnFailureListener(e -> Toast
-                        .makeText(getActivity(), Html.fromHtml("<font color='#FE0000' ><b>Cannot find plant!</b></font>"), Toast.LENGTH_SHORT)
-                        .show());
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                }));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void initHerbAdapter(View v) {
+        try {
+            if (homeHerbs.size() > 0) {
+                herbAdapter = new ImageAdapter(homeHerbs);
+                herbRecycle.setLayoutManager(mLayoutManager2);
+                herbRecycle.setItemAnimator(new DefaultItemAnimator());
+                herbRecycle.setAdapter(herbAdapter);
+                herbRecycle.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), herbRecycle, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        viewPlantDetail(homeHerbs.get(position).getName());
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                }));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void initVegetableAdapter(View v) {
+
+        try {
+            if (homeVegetables.size() > 0) {
+
+                vegetableAdapter = new ImageAdapter(homeVegetables);
+                vegetableRecycle.setLayoutManager(mLayoutManager);
+                vegetableRecycle.setItemAnimator(new DefaultItemAnimator());
+                vegetableRecycle.setAdapter(vegetableAdapter);
+                vegetableRecycle.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), vegetableRecycle, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        viewPlantDetail(homeVegetables.get(position).getName());
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                }));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private void navigateToMain() {
@@ -398,12 +397,22 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void toPlantDetail(Plant plant) {
+    private void viewPlantDetail(String name) {
+
+        System.out.println("click on = " + name);
+
+        PlantDetailFragment plantDetailFragment = new PlantDetailFragment();
+        for (int i = 0; i < plantsList.size(); i++) {
+            System.out.println(plantsList.get(i));
+            if (plantsList.get(i).getName().equalsIgnoreCase(name)) {
+                plantDetailFragment.setPlant(plantsList.get(i));
+                break;
+            }
+        }
+        plantDetailFragment.setAllPlants(plantsList);
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        PlantDetailFragment plantDetailFragment = new PlantDetailFragment();
-        plantDetailFragment.setPlant(plant);
-        plantDetailFragment.setAllPlants(plantsList);
 
         fragmentTransaction.replace(R.id.homeFrameLayout, plantDetailFragment);
         fragmentTransaction.commit();
